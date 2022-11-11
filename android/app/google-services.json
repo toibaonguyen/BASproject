@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "830096715156",
+    "firebase_url": "https://buyandsellproject-753ab-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "buyandsellproject-753ab",
+    "storage_bucket": "buyandsellproject-753ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830096715156:android:0f4e31b0164231904b3381",
+        "android_client_info": {
+          "package_name": "com.bas_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830096715156-a8q6ei2ic944ob4i4kda4tvlqgp1hc24.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6ZVivnMs7nf2Ea_kxVRHtFqmLN0TYJ2U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830096715156-a8q6ei2ic944ob4i4kda4tvlqgp1hc24.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
