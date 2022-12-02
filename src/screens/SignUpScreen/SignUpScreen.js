@@ -115,7 +115,7 @@ const SignUpScreen = () => {
       <CustomInput placeholder="Email" value={email} setvalue={setemail}/>
       <CustomInput placeholder="Username" value={username} setvalue={setusername}/>
       <CustomInput placeholder="Full name" value={name} setvalue={setname}/>
-      <CustomInput placeholder="Phone number" value={phone} setvalue={setphone}/>
+      <CustomInput placeholder="Phone number" value={phone} setvalue={setphone} keyboardType={"phone-pad"}/>
       
       <CustomInput placeholder="Password" value={password} setvalue={setpassword} secureTextEntry={true}/>
       <CustomInput placeholder="Reapeat password" value={passwordrepeat} setvalue={setpasswordrepeat} secureTextEntry={true}/>

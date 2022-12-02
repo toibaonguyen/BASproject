@@ -2,7 +2,7 @@
 export const setuserid = (userid) =>async dispatch=> {
 
     let id=userid;
-    console.log(id)
+    console.log("Userid: ",id)
     dispatch({
         type: 'SET_USERID',
         payload: id
@@ -21,7 +21,7 @@ export const setuserphone = (userpassword)=>async dispatch => {
     })
 }
 export const setuseremail = (useremail)=>async dispatch => {
-    console.log(useremail)
+    console.log("Email: ",useremail)
     dispatch({
         type: 'SET_USEREMAIL',
         payload: useremail
@@ -52,9 +52,17 @@ export const setisstartingup = (isstartingup)=>async dispatch => {
     })
 }
 export const setuseravatar = (ava)=>async dispatch => {
-    console.log(ava)
+    console.log("Avatar: ",ava)
     dispatch({
         type: 'SET_USERAVATAR',
         payload: ava
+    })
+}
+export const setproducts = (items)=> dispatch => {
+    console.log("Products: ",items)
+    dispatch({
+        type: 'SET_PRODUCTS',
+        payload: items
+
     })
 }

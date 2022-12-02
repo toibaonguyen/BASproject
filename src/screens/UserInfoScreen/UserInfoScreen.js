@@ -259,7 +259,7 @@ const UserInfoScreen = () => {
           <CustomBtnWithIcon text="Support" iconname="solution1" bgColor="white" fgColor="black" type='TERTIARY' />          
         </View>
         <View style={{flexDirection:"column-reverse",width:width-50}}>
-          <CustomButton text="Sign Out" onPress={onPressSignOut}/>
+          <CustomButton text="Sign Out" onPress={onPressSignOut} bgColor="#BFBFBF"/>
         </View>
      
       </View>

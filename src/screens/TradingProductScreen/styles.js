@@ -7,7 +7,7 @@ const styles=StyleSheet.create({
     oldPrice:{fontSize:12,fontWeight:"normal",textDecorationLine:"line-through",color:"black"},
     descriptionTitle:{fontWeight:"bold",marginTop:10},
     description:{marginBottom:10},
-    avatarseller:{flexDirection:"row",flex:1}
+    avatartrader:{flexDirection:"row",flex:1}
     
 })
 

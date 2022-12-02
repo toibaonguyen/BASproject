@@ -1,3 +1,7 @@
+
+
+
+
 const InitialUserInfoState ={
 
     id: null,
@@ -7,6 +11,7 @@ const InitialUserInfoState ={
     name: "",
     avatar:""
 }
+
 const InitialLogicFrontEndState ={
 
     isLoading:false,
@@ -14,6 +19,9 @@ const InitialLogicFrontEndState ={
     isStartingUp:false,
 }
 
+const InitialListofProducts={
+    products:[]
+}
 export function ReducerUserInfo(state=InitialUserInfoState,action){
     switch (action.type){
 
@@ -47,3 +55,16 @@ export function ReducerLogicFrontEnd(state=InitialLogicFrontEndState,action){
 
     }
 }
+
+export function ReducerListofProducts(state=InitialListofProducts,action){
+    switch(action.type){
+        case 'SET_PRODUCTS':
+            return {products:action.payload};
+        default:
+            return state;
+    }
+}
+
+
+
+

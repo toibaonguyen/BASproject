@@ -40,7 +40,6 @@ const App= () => {
     try{
       dispatch(setuserid((user.uid)))
       dispatch(setuseremail((user.email)))
-    
     }
     catch(e){
       console.log(e)
@@ -61,7 +60,6 @@ const App= () => {
     <NavigationContainer>
     <SafeAreaView style={styles.root}>
       <Navigation/>
-     
     </SafeAreaView>
     </NavigationContainer>
   );
