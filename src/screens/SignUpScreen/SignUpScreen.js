@@ -77,7 +77,6 @@ const SignUpScreen = () => {
         phonenumber:phone,
         baseavatar:"https://www.linkpicture.com/q/useravatar.jpg"
       })
-
     })
     .catch((e)=>{
       alert(e.message)
@@ -112,7 +111,7 @@ const SignUpScreen = () => {
     <ScrollView style={{flex:1}} showsVerticalScrollIndicator={false}>
     <View style={styles.root}>
       <Text style={styles.title}>Create an account</Text>
-      <CustomInput placeholder="Email" value={email} setvalue={setemail}/>
+      <CustomInput placeholder="Email" value={email} setvalue={setemail} keyboardType={"email-address"}/>
       <CustomInput placeholder="Username" value={username} setvalue={setusername}/>
       <CustomInput placeholder="Full name" value={name} setvalue={setname}/>
       <CustomInput placeholder="Phone number" value={phone} setvalue={setphone} keyboardType={"phone-pad"}/>

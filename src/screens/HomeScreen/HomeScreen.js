@@ -15,81 +15,31 @@ const HomeScreen = () => {
 
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [checkimageswitch,setCheckimageswitch]=useState(0);
+
   const products=useSelector(state=>state.ReducerListofProducts.products)
-  
+
   const dispatch=useDispatch();
 
-
-  const getimages=async()=>{
-
-    const list=[]
-
-    products.forEach(
-      async (item)=>{
-        let ko=""
-        const ref=`products/product/${item.id}/representativeImage/i0`;
-        await storage().ref(ref).getDownloadURL().then(item=>ko=item);
-        await list.push({...item,image:ko})
-      }
-    )
-    dispatch(setproducts(list))
-  }
-  
-
-  
-  
   useEffect(()=>{
 
-    try{
-      const subscriber = firestore()
-        .collection('Products').onSnapshot(
-          querySnapshot=>{
-  
-            //console.log("Total product: ",querySnapshot)
-  
+    const subscriber = firestore().collection('Products').onSnapshot(
+          async (querySnapshot)=>{
             const productslist=[];
             querySnapshot.forEach((documentSnapshot) => {
-  
-  
               console.log("ref: ",`products/product/${documentSnapshot.id}/representativeImage/i0`)
               const ref=`products/product/${documentSnapshot.id}/representativeImage/i0.jpg`
               productslist.push({
                 ...documentSnapshot.data(),
                 id: documentSnapshot.id
               });
-              
-              
-            });
-  
-            dispatch(setproducts(productslist))
-            setCheckimageswitch(!checkimageswitch)
-            setLoading(false)
-
-
-  
+            }
+            );
+            dispatch(setproducts(productslist));
+            setLoading(false);
           }
         )
-        
-  
-      // Stop listening for updates when no longer required
-      return () => subscriber();
-    }catch(e){
-      console.error(e)
-    }
-
-   
+    return () => subscriber();
   },[])
-
-  useEffect(
-    getimages()
-   ,[checkimageswitch]
-  )
-
-
-
-
-
-
   if (loading) {
     return(
       <View style={styles.loading}>
@@ -97,9 +47,6 @@ const HomeScreen = () => {
       </View>
     )
   }
-
-  
-  
   return (
     
       <View style={styles.root}>

@@ -1,4 +1,4 @@
-import { View, Text,ScrollView,Pressable } from 'react-native'
+import { View, Text,ScrollView,Pressable,ActivityIndicator } from 'react-native'
 import React, {useState,useEffect} from 'react'
 import styles from './styles'
 import { Picker } from '@react-native-picker/picker'
@@ -8,14 +8,17 @@ import ImageCarousel from '../../components/ImageCarousel'
 import { Avatar } from 'react-native-paper'
 import firestore from "@react-native-firebase/firestore"
 import storage from "@react-native-firebase/storage"
+import { useSelector } from 'react-redux'
 
 
 
 const ProductScreen = ({ route, navigation }) => {
 
 
-  const {id}=route.params;
+  
 
+
+  const {id}=route.params;
   const [options,setOptions]=useState([])
   const [images,setImages]=useState([])
   const [productname,setProductname]=useState("")
@@ -24,20 +27,11 @@ const ProductScreen = ({ route, navigation }) => {
   const [description,setDescription]=useState("")
   const [maxQuantity,setMaxQuantity]=useState(0)
 
-  const getSampleImage = async() => {
-    const urls = [];
-    await storage().ref().child(`products/product/${id}/images/`).listAll().then(
-      res=>res.items.forEach((item)=>{
-        console.log(item.name)
-      })
-    )
-    
-    console.log("Images000:",images)
-  }
+
 
 
   useEffect(() => {
-    getSampleImage();
+    
     const subscriber = firestore()
       .collection('Products')
       .doc(id)
@@ -70,12 +64,11 @@ const ProductScreen = ({ route, navigation }) => {
     console.log("Buy now")
   }
 
+  
   return (
   <ScrollView>
     <View style={styles.root}> 
       <ImageCarousel images={images}/>
-      
-
       <Text style={styles.title}>{productname} </Text>
       {
         options &&
@@ -87,7 +80,6 @@ const ProductScreen = ({ route, navigation }) => {
         }
         </Picker>
       }
-
       <Text style={styles.price}>
         {price} VNĐ
         <Text> </Text>

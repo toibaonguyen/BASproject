@@ -1,5 +1,5 @@
 import { View, Text,SafeAreaView } from 'react-native'
-import React,{useEffect} from 'react'
+import React,{useEffect, useState} from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from '../HomeScreen/HomeScreen'
 import UserInfoScreen from '../UserInfoScreen'
@@ -13,6 +13,9 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import ShoppingCartScreen from "../ShoppingCartScreen"
 import ProductScreen from '../ProductScreen'
 import AddressScreen from '../AddressScreen'
+import UploadProductTestScreen from '../UploadProductTestScreen'
+
+
 
 import {setuseremail,setusername,setuserphone,setuserhintname,setuseravatar} from "../../redux/store/action"
 
@@ -32,7 +35,7 @@ const BottomTab=()=>{
     <Foundation name='home' color={color} size={25}/>
     )
     }}/>
-    <Tab.Screen name='Profile' component={UserInfoScreen} options={{title:"Me",
+    <Tab.Screen name='UploadTest' component={UploadProductTestScreen} options={{title:"UploadTest",
     tabBarIcon:({color})=>(
       <Foundation name='home' color={color} size={25}/>
       )
@@ -60,13 +63,11 @@ const MainAppScreen = () => {
 
   const id=useSelector(state=>state.ReducerUserInfo.id)
   const fullname=useSelector(state=>state.ReducerUserInfo.name)
+  const [isloading,setIsloading]=useState(false)
 
   const dispatch=useDispatch()
 
-  async function getavatar(m){
-    await storage().ref(`avatar/${id}/avatar`).getDownloadURL().then(url=>{dispatch(setuseravatar(url))})
-      .catch(e=>dispatch(setuseravatar(m)))
-  }
+ 
   useEffect(()=>{
 
     
@@ -80,11 +81,9 @@ const MainAppScreen = () => {
         dispatch(setuseremail(documentSnapshot.data().email))
         dispatch(setuserphone(documentSnapshot.data().phonenumber))
         dispatch(setuserhintname(documentSnapshot.data().fullname))
-        getavatar(documentSnapshot.data().baseavatar)
+        dispatch(setuseravatar(documentSnapshot.data().avatar))
       })
-      
 
-    // Stop listening for updates when no longer required
     return () => subscriber();
   }catch(e){
     console.error(e)

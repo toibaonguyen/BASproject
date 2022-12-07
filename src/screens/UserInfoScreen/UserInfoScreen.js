@@ -170,6 +170,7 @@ const UserInfoScreen = () => {
     setImage({uri:""});
     setisVisible(false);
     const url=await storage().ref(`avatar/${id}/avatar`).getDownloadURL()
+    await firestore().collection('Users').doc(id).update({'avatar':url})
     dispatch(setuseravatar(url))
   }
 

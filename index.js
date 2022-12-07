@@ -10,6 +10,14 @@ import store from "./src/redux/store"
 import TradingProductScreen from './src/screens/TradingProductScreen'
 import ProductScreen from './src/screens/ProductScreen/ProductScreen'
 
+/*
+const RootApp=()=>{
+    return(
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    )
+}*/
 const RootApp=()=>{
     return(
         <Provider store={store}>
@@ -17,16 +25,5 @@ const RootApp=()=>{
         </Provider>
     )
 }
-/*
-const RootApp=()=>{
-    return(
-        <Provider store={store}>
-           <ProductScreen 
-           images={["https://www.linkpicture.com/q/useravatar.jpg","https://www.linkpicture.com/q/useravatar.jpg"]}
-           productname={"blaCK"}
-           options={["wowy","kane"]}
-           />
-        </Provider>
-    )
-}*/
+
 AppRegistry.registerComponent(appName, () => RootApp);
