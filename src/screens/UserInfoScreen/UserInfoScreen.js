@@ -41,14 +41,11 @@ const UserInfoScreen = () => {
   const phone=useSelector(state=>state.ReducerUserInfo.phone)
   const avatar=useSelector(state=>state.ReducerUserInfo.avatar)
   
-
   const [username0,setusername0]=useState(username)
   const [fullname0,setfullname0]=useState(fullname)
   const [phone0,setphone0]=useState(phone)
   const dispatch=useDispatch()
-
-
-
+  
   
 
  
@@ -233,7 +230,7 @@ const UserInfoScreen = () => {
         <View style={{width:width,flexDirection:"row",height:height*0.3,flex:1}}>
           <ImageBackground source={UserInfoScreenBG} resizeMode="cover" style={{flex: 1,justifyContent: "center"}}>
           <View style={{marginTop:10,marginLeft:10}}>
-            <Pressable onPress={()=>{setisVisible(true)}}>
+            <Pressable onPress={()=>{setisVisible(true)}} style={{marginTop:10,marginLeft:10}}>
               <Avatar.Image source={{uri:avatar}}/>
             </Pressable>
           </View>

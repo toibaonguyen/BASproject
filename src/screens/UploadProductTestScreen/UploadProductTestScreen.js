@@ -24,15 +24,16 @@ const UploadProductTestScreen = () => {
   const [price,setPrice]=useState(0);
   const [avgrating,setAvgrating]=useState(0);
   const [ratings,setRatings]=useState(0);
-  const [maxquantity,setmaxquantity]=useState(0)
-  const [description,setDescription]=useState("")
-  const [imageList,setImageList]=useState([])
+  const [maxquantity,setmaxquantity]=useState(0);
+  const [description,setDescription]=useState("");
+  const [imageList,setImageList]=useState([]);
   const openCamera=async()=>{
         const options={
           storageOptions:{
             path:'images',
             mediaType:'photo',
           },
+          includeBase64:true
         };
         await launchCamera(options,response=>{
           console.log('response = ',response);
@@ -61,7 +62,7 @@ const UploadProductTestScreen = () => {
             path:'images',
             mediaType:'photo',
           },
-          //includeBase64:true
+          includeBase64:true
         };
         await launchImageLibrary(options, response=>{
           console.log('response = ', response);
@@ -91,8 +92,8 @@ const UploadProductTestScreen = () => {
             path:'images',
             mediaType:'photo',
           },
-          //includeBase64:true,
-          selectionLimit:8
+          includeBase64:true,
+          selectionLimit:0
         };
         await launchImageLibrary(options, response=>{
           console.log('response = ', response);
@@ -115,56 +116,15 @@ const UploadProductTestScreen = () => {
            
             console.log("Source images = ",list)
             setImages(list)
-            console.log("Images = ",images)
+           // console.log("Images = ",images)
           }
         })
       };
-      /*
-    const uploadImage = async()=>{
-        const uri= image.uri;
-        const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-        const task = storage().ref(`avatar/${id}/avatar`).putFile(image);
-        
-        try {
-        await task;
-        } 
-        catch(e) {
-         console.error(e);
-        }
-        Alert.alert(
-         'Avatar changed successfully!',
-         'Your avatar has been changed'
-        );
-        setImage({uri:""});
-        setisVisible(false);
-        const url=await storage().ref(`avatar/${id}/avatar`).getDownloadURL()
-        await firestore().collection('Users').doc(id).update({'avatar':url})
-    }*/
-
-
+    
+    
     const postProduct=async ()=>{
       
       setImageList([]);
-
-        const uploadImage = async (photo,id,index) => {
-
-        const uri = photo.uri;
-
-        const childPath = `products/product/${id}/Images/i${index}`;
-
-        console.log(childPath);
-
-        const response = await fetch(uri);
-
-        const blob = await response.blob();
-    
-        const snapshot = await storage().ref(childPath).put(blob);
-        const downloadURL = await storage().ref(childPath).getDownloadURL();
-        console.log(downloadURL);
-        console.log("List is: ",imageList)
-        await setImageList([...imageList,downloadURL])
-        return 1
-      };
 
       const docRef =firestore().collection('Products').add({
         productname:name,
@@ -173,25 +133,55 @@ const UploadProductTestScreen = () => {
         ratings:ratings,
         avgRating:avgrating,
         sellerID:id,
-        description:description
+        description:description,
+        images:[],
+        status:"invalid",
       })
 
       const docadded = await docRef
-      await storage().ref(`products/product/${docadded.id}/representativeImage/i0`).putFile(image.uri);
-      const url = await storage().ref(`products/product/${docadded.id}/representativeImage/i0`).getDownloadURL();
-      await firestore().collection('Products').doc(docadded.id).update({'image':url});
-      
-      await Promise.all(images.map(async(i,index)=>{await uploadImage(i,docadded.id,index+1)}));
 
-      await firestore().collection('Products').doc(docadded.id).update({'imagessssssss':imageList});
+      await storage().ref(`products/product/${docadded.id}/representativeImage/i0`).putFile(image.uri);
+
+      const url = await storage().ref(`products/product/${docadded.id}/representativeImage/i0`).getDownloadURL();
+
+      await firestore().collection('Products').doc(docadded.id).update({'image':url});
+      //do something with image list here
+      const promises =await images.map(async(file,index) => {
+        const ref = storage().ref(`products/product/${docadded.id}/Images/i${index+1}`);
+        const uri=file.uri;
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        
+
+        return ref
+          .put(blob)
+          .then(() => ref.getDownloadURL())
+
+      });
+      
+      await Promise.all(promises)
+      .then(async (fileDownloadUrls) => {
+          await firestore().collection('Products').doc(docadded.id).update(
+            {
+              images:fileDownloadUrls
+            }
+          )
+          console.log("Upload list of images success!")
+        
+      }
+      ).then(async ()=>{
+        await firestore().collection('Users').doc(id).update({
+          
+        })
+      })
+      .catch(err => console.log("loi 0 la: ",err))
+      .catch(err => console.log("loi 1 la: ",err));
+
+
+
     }
 
-  if(isloading){
 
-    return(
-      <ActivityIndicator/>
-    )
-  }
 
 
   return (
@@ -212,6 +202,7 @@ const UploadProductTestScreen = () => {
       <CustomInput placeholder={"Max quantity"} keyboardType={"number-pad"} value={maxquantity} setvalue={setmaxquantity}/>
       <View>
         <TextInput placeholder='Description' multiline value={description} onChangeText={setDescription}/>
+
       </View>
       
 

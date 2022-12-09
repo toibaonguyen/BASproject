@@ -9,7 +9,8 @@ const InitialUserInfoState ={
     phone: "",
     email: "",
     name: "",
-    avatar:""
+    avatar:"",
+    baseavatar:""
 }
 
 const InitialLogicFrontEndState ={
@@ -37,6 +38,8 @@ export function ReducerUserInfo(state=InitialUserInfoState,action){
             return {...state,name: action.payload};
         case 'SET_USERAVATAR':
             return {...state,avatar: action.payload};
+        case 'SET_BASEAVATAR':
+            return {...state,baseavatar: action.payload};
         default:
             return state;
     }
@@ -52,7 +55,6 @@ export function ReducerLogicFrontEnd(state=InitialLogicFrontEndState,action){
             return {...state,isStartingUp: action.payload};
         default:
             return state;
-
     }
 }
 

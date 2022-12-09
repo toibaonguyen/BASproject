@@ -9,7 +9,7 @@ import CustomButton from '../../components/CustomButton/CustomButton'
 import { useNavigation } from '@react-navigation/native'
 import auth, { firebase } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import { setisloading } from '../../redux/store/action'
 import storage from '@react-native-firebase/storage'
 
@@ -18,7 +18,9 @@ import storage from '@react-native-firebase/storage'
 
 const SignUpScreen = () => {
 
-  const navigation=useNavigation()
+  const navigation=useNavigation();
+  const baseavatar=useSelector(state=>state.ReducerUserInfo.baseavatar);
+  
 
   const [username,setusername]=useState("");
   const [name,setname]=useState("");
@@ -65,24 +67,40 @@ const SignUpScreen = () => {
       return 
     }
     dispatch(setisloading(true))
+    //Start from here
+    
+
     await auth().createUserWithEmailAndPassword(email,password).then(async()=>{
-      await auth().currentUser.sendEmailVerification()
-    .then(()=>alert('Vertification email sent, please check the email to complete the process'))
-    .catch((e)=>{alert(e.message)})
-    .then(()=>{
-      firestore().collection('Users').doc(auth().currentUser.uid).set({
-        username:username,
-        email:email,
-        fullname:name,
-        phonenumber:phone,
-        baseavatar:"https://www.linkpicture.com/q/useravatar.jpg"
+        await auth().currentUser.sendEmailVerification()
+      .then(()=>alert('Vertification email sent, please check the email to complete the process'))
+      .catch((e)=>{alert(e.message)})
+      .then(()=>{
+        firestore().collection('Users').doc(auth().currentUser.uid).set({
+          username:username,
+          email:email,
+          fullname:name,
+          phonenumber:phone,
+          avatar:baseavatar,
+          favoriteProducts:[],
+          products:[],//những mặt hàng đc đăng lên để bán
+          tradingProducts:[],//những mặt hàng đc đăng lên để trade
+          solvingProducts:[],//những đơn hàng cần được xử lý
+          boughtProductsHistory:[],//Lịch sử mua hàng
+          tradedProductsHistory:[],//Lịch sử trade hàng
+          soldProductsHistory:[],//Lịch sử bán hàng
+          shoppingCart:[]
+        })
       })
-    })
-    .catch((e)=>{
-      alert(e.message)
-    })
-  }).catch((e)=>{alert(e.message)})
-  dispatch(setisloading(false))
+      .catch((e)=>{
+        alert(e.message)
+      })
+    }).catch((e)=>{alert(e.message)})
+    dispatch(setisloading(false))
+
+
+
+    //await baseavatar;
+    
   
 
 

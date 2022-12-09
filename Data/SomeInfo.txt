@@ -1,0 +1,8 @@
+1: Các dạng status của mặt hàng khi người dùng post lên hệ thống:
+
+status=["invalid","valid","sold_out"];
+
+2: Các dạng status đơn hàng bên phía người mua hàng
+
+status=["ordering","confirmed","cancelled","deliverying"]
+

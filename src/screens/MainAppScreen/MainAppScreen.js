@@ -14,8 +14,7 @@ import ShoppingCartScreen from "../ShoppingCartScreen"
 import ProductScreen from '../ProductScreen'
 import AddressScreen from '../AddressScreen'
 import UploadProductTestScreen from '../UploadProductTestScreen'
-
-
+import SellersPageScreen from '../SellersPageScreen'
 
 import {setuseremail,setusername,setuserphone,setuserhintname,setuseravatar} from "../../redux/store/action"
 
@@ -103,6 +102,7 @@ const MainAppScreen = () => {
     <RootStack.Screen component={BottomTab} name="PrimaryUI" options={{headerShown:false}}/>
     <RootStack.Screen component={ProductScreen} name="ProductInfo" options={{headerTitle:"Detail"}}/>
     <RootStack.Screen component={AddressScreen} name="Address" options={{headerTitle:"Address information"}}/>
+    <RootStack.Screen component={SellersPageScreen} name="Sellerspage" options={{headerTitle:""}}/>
     
    </RootStack.Navigator>
     

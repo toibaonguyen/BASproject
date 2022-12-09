@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text,ActivityIndicator } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -46,7 +46,7 @@ const Navigation = () => {
   if(isloading){
     return(
       <View style={{justifyContent:"center",alignItems:"center",flex:1}}>
-        <Text>Loading...</Text>
+        <ActivityIndicator />
       </View>
     )
   }

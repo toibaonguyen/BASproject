@@ -58,6 +58,13 @@ export const setuseravatar = (ava)=>async dispatch => {
         payload: ava
     })
 }
+export const setbaseavatar = (ava)=> async dispatch => {
+    console.log("Base Avatar: ",ava)
+    dispatch({
+        type: 'SET_BASEAVATAR',
+        payload: ava
+    })
+}
 export const setproducts = (items)=> dispatch => {
     console.log("Products: ",items)
     dispatch({

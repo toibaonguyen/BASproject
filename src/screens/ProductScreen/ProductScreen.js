@@ -14,10 +14,6 @@ import { useSelector } from 'react-redux'
 
 const ProductScreen = ({ route, navigation }) => {
 
-
-  
-
-
   const {id}=route.params;
   const [options,setOptions]=useState([])
   const [images,setImages]=useState([])
@@ -26,9 +22,14 @@ const ProductScreen = ({ route, navigation }) => {
   const [oldprice,setOldprice]=useState("")
   const [description,setDescription]=useState("")
   const [maxQuantity,setMaxQuantity]=useState(0)
+  const [sellerid,setsellerid]=useState("")
+  const [selleravatar,setSelleravatar]=useState("https://www.linkpicture.com/q/useravatar.jpg")
+  const [sellername,setSellername]=useState("Username")
 
 
-
+  const pushtosellerspage=()=>{
+    navigation.push("Sellerspage",{id:sellerid,avatar:selleravatar,username:sellername})
+  }
 
   useEffect(() => {
     
@@ -43,13 +44,26 @@ const ProductScreen = ({ route, navigation }) => {
         setOldprice(documentSnapshot.data().oldPrice);
         setDescription(documentSnapshot.data().description);
         setMaxQuantity(documentSnapshot.data().maxQuantity);
-
-
+        setImages(documentSnapshot.data().images);
+        setsellerid(documentSnapshot.data().sellerID);
+        
       });
-
-    // Stop listening for updates when no longer required
     return () => subscriber();
   }, []);
+  useEffect(() => {
+    
+    const getuser =async () => {
+      await firestore().collection("Users").doc(sellerid).get().then(
+        async (q)=>{
+          await setSellername(q.data().username);
+          await setSelleravatar(q.data().avatar);
+          
+        }
+      ).catch(e=>{console.log(e)})
+    }
+
+    getuser();
+  }, [sellerid]);
   
   
 
@@ -95,9 +109,9 @@ const ProductScreen = ({ route, navigation }) => {
       <CustomButton text="Add to Cart" onPress={onAddtoCartPressed} fgColor="black" bgColor="#4B8CE5"/>
       <CustomButton text="Buy Now" onPress={onBuyNowPressed} bgColor="#d1d1d1" fgColor="black"/>
       <View style={styles.avatarseller}>
-      <Pressable style={styles.traderinfo} onPress={()=>{console.log("okeoke")}}>
-        <Avatar.Image />
-        <Text style={{marginLeft:10}}>Username</Text>
+      <Pressable style={styles.traderinfo} onPress={pushtosellerspage}>
+        <Avatar.Image source={{uri:selleravatar}}/>
+        <Text style={{marginLeft:10}}>{sellername}</Text>
       </Pressable>
       </View>
     </View>

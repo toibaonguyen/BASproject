@@ -23,10 +23,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import store from './src/redux/store';
 import { Provider } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import auth from "@react-native-firebase/auth"
-import { setuseremail,setuserid,setusername } from './src/redux/store/action';
+import { setuseremail,setuserid,setusername,setbaseavatar } from './src/redux/store/action';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import InitializingScreen from './src/screens/InitializingScreen';
 
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
@@ -35,6 +37,8 @@ import firestore from '@react-native-firebase/firestore';
 
 const App= () => {
   const dispatch=useDispatch();
+
+  const [isInitializing,setIsInitializing]=useState(true);
 
   const onAuthStateChanged=(user)=>{
     try{
@@ -45,15 +49,31 @@ const App= () => {
       console.log(e)
       dispatch(setuserid((null)))
     }  
-  }
-  
+  };
 
 
   useEffect(() => {
+    async function getbaseavatar(){
+      const url=await storage().ref('avatar/baseAvatar/avatar.jpg').getDownloadURL();
+      await dispatch(setbaseavatar(url));
+      await setIsInitializing(false);
+    }
+
+    getbaseavatar();
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+
+
     return subscriber; // unsubscribe on unmount
   }, []);
  
+
+
+  if(isInitializing){
+    return(
+      <InitializingScreen/>
+    )
+  }
+
 
   return (
     
