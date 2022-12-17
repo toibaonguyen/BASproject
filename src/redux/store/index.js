@@ -5,5 +5,7 @@ import { ReducerUserInfo,ReducerLogicFrontEnd,ReducerListofProducts } from './re
 
 const RootReducer = combineReducers({ReducerUserInfo,ReducerLogicFrontEnd,ReducerListofProducts})
 
-export default Store=configureStore({reducer: RootReducer,
-    applyMiddleware: thunk})
+export default Store=configureStore({
+    reducer: RootReducer,
+    applyMiddleware: thunk
+})

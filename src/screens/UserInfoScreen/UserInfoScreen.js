@@ -14,6 +14,7 @@ import {launchImageLibrary, launchCamera} from "react-native-image-picker"
 import Modal from "react-native-modal";
 import {setuseremail,setusername,setuserphone,setuserhintname,setuseravatar} from "../../redux/store/action"
 import CustomInput from '../../components/CustomInput'
+import { useNavigation } from '@react-navigation/native'
 
 
 
@@ -34,6 +35,7 @@ const UserInfoScreen = () => {
   const [isVisible1,setisVisible1]=useState(false)
 
 
+
   const email=useSelector(state=>state.ReducerUserInfo.email)
   const id=useSelector(state=>state.ReducerUserInfo.id)
   const username=useSelector(state=>state.ReducerUserInfo.user)
@@ -45,10 +47,16 @@ const UserInfoScreen = () => {
   const [fullname0,setfullname0]=useState(fullname)
   const [phone0,setphone0]=useState(phone)
   const dispatch=useDispatch()
-  
+  const navigation=useNavigation()
+  const onproductsPressed=()=>{
+    navigation.navigate("ProductManage")
+  }
   
 
  
+  const onFavoriteProducts=()=>{
+    navigation.navigate("FavoriteProducts")
+  }
   const onChangeInfo=async()=>{
     const checkphonevalidation=(p)=>{
       let vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
@@ -252,9 +260,14 @@ const UserInfoScreen = () => {
         </Button>
         </View>
         <View style={{marginTop:15,width:width-40}}>
-          <CustomBtnWithIcon text="My Favorites" iconname="heart" bgColor="white" fgColor="black" type='TERTIARY' />
+          <CustomBtnWithIcon text="My Favorites" iconname="heart" bgColor="white" fgColor="black" type='TERTIARY' 
+          onPress={onFavoriteProducts}
+          />
           <CustomBtnWithIcon text="Payment" iconname="creditcard" bgColor="white" fgColor="black" type='TERTIARY' />
-          <CustomBtnWithIcon text="Support" iconname="solution1" bgColor="white" fgColor="black" type='TERTIARY' />          
+          <CustomBtnWithIcon text="Products" iconname="profile" bgColor="white" fgColor="black" type='TERTIARY' 
+          onPress={onproductsPressed}
+          /> 
+          <CustomBtnWithIcon text="Support" iconname="solution1" bgColor="white" fgColor="black" type='TERTIARY' />  
         </View>
         <View style={{flexDirection:"column-reverse",width:width-50}}>
           <CustomButton text="Sign Out" onPress={onPressSignOut} bgColor="#BFBFBF"/>

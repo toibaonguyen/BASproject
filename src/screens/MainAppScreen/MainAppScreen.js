@@ -15,10 +15,24 @@ import ProductScreen from '../ProductScreen'
 import AddressScreen from '../AddressScreen'
 import UploadProductTestScreen from '../UploadProductTestScreen'
 import SellersPageScreen from '../SellersPageScreen'
-
-import {setuseremail,setusername,setuserphone,setuserhintname,setuseravatar} from "../../redux/store/action"
-
-
+import ProductsmanageScreen from '../ProductsmanageScreen'
+import {
+  setuseremail,
+  setusername,
+  setuserphone,
+  setuserhintname,
+  setuseravatar,
+  setUserproducts,
+  setboughtProductsHistory,
+  setfavoriteProducts,
+  setshoppingCart,
+  setsoldProductsHistory,
+  setsolvingProducts,
+  settradedProductsHistory,
+  settradingProducts
+} from "../../redux/store/action"
+import FavoriteProductsScreen from '../FavoriteProductsScreen'
+import SuccessfullyOrderingScreen from '../SuccessfullyOrderingScreen'
 
 const Tab=createBottomTabNavigator()
 const RootStack=createNativeStackNavigator()
@@ -57,7 +71,6 @@ const BottomTab=()=>{
 
 
 
-
 const MainAppScreen = () => {
 
   const id=useSelector(state=>state.ReducerUserInfo.id)
@@ -81,6 +94,14 @@ const MainAppScreen = () => {
         dispatch(setuserphone(documentSnapshot.data().phonenumber))
         dispatch(setuserhintname(documentSnapshot.data().fullname))
         dispatch(setuseravatar(documentSnapshot.data().avatar))
+        dispatch(setUserproducts(documentSnapshot.data().products))
+        dispatch(setshoppingCart(documentSnapshot.data().shoppingCart))
+        dispatch(setsoldProductsHistory(documentSnapshot.data().soldProductsHistory))
+        dispatch(setsolvingProducts(documentSnapshot.data().solvingProducts))
+        dispatch(settradedProductsHistory(documentSnapshot.data().tradedProductsHistory))
+        dispatch(settradingProducts(documentSnapshot.data().tradingProducts))
+        dispatch(setboughtProductsHistory(documentSnapshot.data().boughtProductsHistory))
+        dispatch(setfavoriteProducts(documentSnapshot.data().favoriteProducts))
       })
 
     return () => subscriber();
@@ -103,9 +124,10 @@ const MainAppScreen = () => {
     <RootStack.Screen component={ProductScreen} name="ProductInfo" options={{headerTitle:"Detail"}}/>
     <RootStack.Screen component={AddressScreen} name="Address" options={{headerTitle:"Address information"}}/>
     <RootStack.Screen component={SellersPageScreen} name="Sellerspage" options={{headerTitle:""}}/>
-    
+    <RootStack.Screen component={ProductsmanageScreen} name="ProductManage" options={{headerShown:false}}/>
+    <RootStack.Screen component={FavoriteProductsScreen} name="FavoriteProducts" options={{headerTitle:"Favorite Products"}}/>
+    <RootStack.Screen component={SuccessfullyOrderingScreen} name="SuccessfulOrder" options={{headerShown:false}}/>
    </RootStack.Navigator>
-    
   )
 }
 

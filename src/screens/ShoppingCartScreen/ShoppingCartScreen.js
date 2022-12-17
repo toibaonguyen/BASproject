@@ -1,24 +1,47 @@
 import { View, Text,ScrollView,SafeAreaView,StyleSheet,Image,FlatList } from 'react-native'
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { Button } from 'react-native'
 import auth from "@react-native-firebase/auth"
 import { Alert,TouchableOpacity } from 'react-native'
 import CartProductItem from '../../components/CartProductItem'
-import products from '../../../Data/products'
 import CustomButton from "../../components/CustomButton"
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import firestore from '@react-native-firebase/firestore'
+
 const ShoppingCartScreen = () => {
+
+  const shoppingCart=useSelector(state=>state.ReducerUserInfo.shoppingCart);
+  const products=useSelector(state=>state.ReducerListofProducts.products);
+  const PList=()=>{
+    const list=[]
+    shoppingCart.forEach(element => {
+      products.forEach(i => {
+        if(i.id===element.id){
+          list.push({price:i.price,quantity:element.quantity})
+        }
+      })
+    })
+    return list
+  }
+
 
 
   const navigation=useNavigation()
+  
 
-
-  const totalPrice=products.reduce(
-    (summedprice,product)=>summedprice+product.price*32,0,
+  const totalPrice=PList().reduce(
+    (summedprice,product)=>summedprice+product.price*product.quantity,0,
   )
   const onCheckout=()=>{
     console.log("okâys")
-    navigation.navigate("Address")
+    if(shoppingCart.length==0){
+      Alert.alert("Notice","There is currently no item in cart");
+      return
+    }
+    const CopiedList=JSON.parse(JSON.stringify(shoppingCart))
+
+    navigation.navigate("Address",{list:CopiedList})
   }
 
   return (
@@ -28,8 +51,8 @@ const ShoppingCartScreen = () => {
         <FlatList 
         ListFooterComponent={()=>(<View style={{marginLeft:5,marginRight:5}}>
           <Text style={{fontSize:18}}>
-            Subtotal ({products.length} items):{" "}
-            <Text style={{color:"#E3EE74 ",fontWeight:"bold"}}>{totalPrice}đ</Text>
+            Subtotal ({shoppingCart.length} items):{" "}
+            <Text style={{color:"#E3EE74",fontWeight:"bold"}}>{totalPrice}đ</Text>
           </Text>
           <CustomButton 
           text="Proceed to checkout" 
@@ -38,11 +61,10 @@ const ShoppingCartScreen = () => {
           onPress={onCheckout}
           />
         </View>)}
-        data={products} 
+        data={shoppingCart} 
         showsVerticalScrollIndicator={false}
-        renderItem={({item})=>
-        <CartProductItem item={item}
-        />
+        keyExtractor={(item,index)=>String(index)}
+        renderItem={({item})=><CartProductItem item={item}/>
       }/>
       </View>    
   )

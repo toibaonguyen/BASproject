@@ -67,6 +67,9 @@ const SignUpScreen = () => {
       return 
     }
     dispatch(setisloading(true))
+    
+    
+    
     //Start from here
     
 

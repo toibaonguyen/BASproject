@@ -5,7 +5,20 @@ import { Picker } from '@react-native-picker/picker'
 import cities from '../../../Data/cities'
 import CustomInput from '../../components/CustomInput'
 import CustomButton from '../../components/CustomButton'
-const AddressScreen = () => {
+import firestore from '@react-native-firebase/firestore'
+import { useSelector } from 'react-redux'
+const AddressScreen = ({route,navigation}) => {
+
+
+  const {list}=route.params
+  const products=useSelector(state=>state.ReducerListofProducts.products);
+  const userid=useSelector(state=>state.ReducerUserInfo.id);
+  const shoppingCart=useSelector(state=>state.ReducerUserInfo.shoppingCart);
+
+
+
+
+
 
   const [fullname,setFullname]=useState("")
   const [phone,setPhone]=useState("")
@@ -17,7 +30,9 @@ const AddressScreen = () => {
 
 
 
-  const onUseAddress=()=>{
+  const onUseAddress=async()=>{
+
+    console.log("List is: ",list)
     const checkphonevalidation=(p)=>{
       let vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
       return vnf_regex.test(p)  
@@ -34,7 +49,33 @@ const AddressScreen = () => {
       Alert.alert("Please fill in the address field!")
       return
     }
-    console.log("okayboy")
+
+    //start from here
+    await list.forEach(async (element,index) => {
+      const index0 = products.findIndex(object => {
+        return object.id === element.id;
+      });
+      const product=products[index0]
+
+      const docadded=await firestore().collection("SolvingProducts").add({
+        ...element,address:address+", "+building+", "+chosenCity,fullname:fullname,phone:phone,sellerID:product.sellerID,purchaserID:userid,status:"ordering"
+      })
+      await firestore().collection("Users").doc(product.sellerID).update({
+        solvingProducts:firestore.FieldValue.arrayUnion(docadded.id)
+      })
+      await firestore().collection("Users").doc(userid).update({
+        solvingProducts:firestore.FieldValue.arrayUnion(docadded.id),
+        shoppingCart:firestore.FieldValue.arrayRemove(element)
+      })
+      console.log(index)
+
+    })
+    
+      navigation.navigate("SuccessfulOrder");
+    
+
+
+    
   }
   const onChangeAddressText=(t)=>{
     setAddress(t); 

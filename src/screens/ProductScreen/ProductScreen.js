@@ -9,107 +9,130 @@ import { Avatar } from 'react-native-paper'
 import firestore from "@react-native-firebase/firestore"
 import storage from "@react-native-firebase/storage"
 import { useSelector } from 'react-redux'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 
 
 const ProductScreen = ({ route, navigation }) => {
 
   const {id}=route.params;
-  const [options,setOptions]=useState([])
-  const [images,setImages]=useState([])
-  const [productname,setProductname]=useState("")
-  const [price,setPrice]=useState(0)
-  const [oldprice,setOldprice]=useState("")
-  const [description,setDescription]=useState("")
-  const [maxQuantity,setMaxQuantity]=useState(0)
-  const [sellerid,setsellerid]=useState("")
-  const [selleravatar,setSelleravatar]=useState("https://www.linkpicture.com/q/useravatar.jpg")
-  const [sellername,setSellername]=useState("Username")
+  const userid=useSelector(state=>state.ReducerUserInfo.id);
+  const favoriteProducts=useSelector(state=>state.ReducerUserInfo.favoriteProducts);
+  const products=useSelector(state=>state.ReducerListofProducts.products);
+  const baseavatar=useSelector(state=>state.ReducerUserInfo.baseavatar)
 
+  const index0 = products.findIndex(object => {
+    return object.id === id;
+  });
+  const product=products[index0]
+  
+
+
+
+
+  const [sellername,setSellername]=useState("")
+  const [selleravatar,setSelleravatar]=useState(baseavatar)
+  const [selectedOption,setselectedOption]=useState(product.options?product.options[0]:"")
+  const [quantity,setQuantity]=useState(1)
+  const [favoriteOne,setFavoriteOne]=useState(favoriteProducts.includes(id))
 
   const pushtosellerspage=()=>{
-    navigation.push("Sellerspage",{id:sellerid,avatar:selleravatar,username:sellername})
+    navigation.push("Sellerspage",{id:product.sellerID,avatar:selleravatar,username:sellername})
   }
-
-  useEffect(() => {
-    
-    const subscriber = firestore()
-      .collection('Products')
-      .doc(id)
-      .onSnapshot(documentSnapshot => {
-        //console.log('Product data: ', documentSnapshot.data());
-        setOptions(documentSnapshot.data().options);
-        setProductname(documentSnapshot.data().productname);
-        setPrice(documentSnapshot.data().price);
-        setOldprice(documentSnapshot.data().oldPrice);
-        setDescription(documentSnapshot.data().description);
-        setMaxQuantity(documentSnapshot.data().maxQuantity);
-        setImages(documentSnapshot.data().images);
-        setsellerid(documentSnapshot.data().sellerID);
-        
-      });
-    return () => subscriber();
-  }, []);
   useEffect(() => {
     
     const getuser =async () => {
-      await firestore().collection("Users").doc(sellerid).get().then(
+      await firestore().collection("Users").doc(product.sellerID).get().then(
         async (q)=>{
           await setSellername(q.data().username);
           await setSelleravatar(q.data().avatar);
-          
         }
       ).catch(e=>{console.log(e)})
     }
 
     getuser();
-  }, [sellerid]);
+  }, []);
   
   
 
   
-  const [selectedOption,setselectedOption]=useState(options?options[0]:null)
-  const [quantity,setQuantity]=useState(1)
+  
 
-  const onAddtoCartPressed=()=>{
+  const onAddtoCartPressed=async()=>{
     console.log("Add to cart")
+    await firestore().collection("Users").doc(userid).update({
+
+      shoppingCart: firestore.FieldValue.arrayUnion({id:id,quantity:quantity,option:selectedOption,ownID:String(new Date)+"_"+id+"_"+userid})
+      
+    })
+    
   }
   const onBuyNowPressed=()=>{
     console.log("Buy now")
+  }
+
+  const onFavorite=async()=>{
+    
+    if(favoriteOne){
+      await firestore().collection("Users").doc(userid).update({
+        favoriteProducts:firestore.FieldValue.arrayRemove(id)
+      }).then(()=>{setFavoriteOne(false)})
+      return
+    }
+    else{
+      await firestore().collection("Users").doc(userid).update({
+        favoriteProducts:firestore.FieldValue.arrayUnion(id)
+      }).then(()=>{setFavoriteOne(true)})
+      return
+    }
   }
 
   
   return (
   <ScrollView>
     <View style={styles.root}> 
-      <ImageCarousel images={images}/>
-      <Text style={styles.title}>{productname} </Text>
+      <ImageCarousel images={product.images}/>
+      <Text style={styles.title}>{product.productname}</Text>
       {
-        options &&
+        product.options &&
         <Picker
         selectedValue={selectedOption}
         onValueChange={(itemvalue)=>setselectedOption(itemvalue)}>
         {
-          options.map((option,i)=>(<Picker.Item key={i} label={option} value={option}/>))
+          options.map((option,i)=>(<Picker.Item key={i} label={option} value={option} />))
         }
         </Picker>
       }
       <Text style={styles.price}>
-        {price} VNĐ
+        {product.price} VNĐ
         <Text> </Text>
-        {oldprice && <Text style={styles.oldPrice}>{oldprice} VNĐ</Text>}
+        {product.oldprice && <Text style={styles.oldPrice}>{product.oldprice} VNĐ</Text>}
       </Text> 
       
       <Text style={styles.descriptionTitle}>Features & details</Text>
       
       <Text style={styles.description}>
-        {description}
+        {product.description}
       </Text>
-      <QuantinySelector quantity={quantity} setQuantity={setQuantity} maxQuantity={maxQuantity} />
-      <CustomButton text="Add to Cart" onPress={onAddtoCartPressed} fgColor="black" bgColor="#4B8CE5"/>
-      <CustomButton text="Buy Now" onPress={onBuyNowPressed} bgColor="#d1d1d1" fgColor="black"/>
+      {
+        product.sellerID!=userid &&
+
+      <View style={styles.favoriteIcon}>
+        <Pressable onPress={onFavorite}>
+          {
+            favoriteOne?<AntDesign name='heart' color={"#E31100"} size={35}/>:<AntDesign name='hearto' color={"#000"} size={35}/>
+          }
+        </Pressable>
+      </View>
+      }
+      <QuantinySelector quantity={quantity} setQuantity={setQuantity} maxQuantity={product.maxQuantity}/>
+
+      {product.sellerID!=userid && <CustomButton text="Add to Cart" onPress={onAddtoCartPressed} fgColor="black" bgColor="#4B8CE5"/>}
+
+      {product.sellerID!=userid && <CustomButton text="Buy Now" onPress={onBuyNowPressed} bgColor="#d1d1d1" fgColor="black"/>}
+
       <View style={styles.avatarseller}>
-      <Pressable style={styles.traderinfo} onPress={pushtosellerspage}>
+      <Pressable onPress={pushtosellerspage}>
         <Avatar.Image source={{uri:selleravatar}}/>
         <Text style={{marginLeft:10}}>{sellername}</Text>
       </Pressable>

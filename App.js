@@ -77,11 +77,10 @@ const App= () => {
 
   return (
     
-    <NavigationContainer>
+   
     <SafeAreaView style={styles.root}>
       <Navigation/>
     </SafeAreaView>
-    </NavigationContainer>
   );
 };
 

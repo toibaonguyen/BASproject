@@ -3,18 +3,24 @@
 
 
 const InitialUserInfoState ={
-
     id: null,
     user: "",
     phone: "",
     email: "",
     name: "",
     avatar:"",
-    baseavatar:""
+    baseavatar:"",
+    products:[],
+    boughtProductsHistory:[],
+    favoriteProducts:[],
+    shoppingCart:[],
+    soldProductsHistory:[],
+    solvingProducts:[],
+    tradedProductsHistory:[],
+    tradingProducts:[],
 }
 
 const InitialLogicFrontEndState ={
-
     isLoading:false,
     isSignOut:false,
     isStartingUp:false,
@@ -40,6 +46,22 @@ export function ReducerUserInfo(state=InitialUserInfoState,action){
             return {...state,avatar: action.payload};
         case 'SET_BASEAVATAR':
             return {...state,baseavatar: action.payload};
+        case 'SET_USERPRODUCTS':
+            return {...state,products: action.payload};
+        case 'SET_BOUGHTPRODUCTSHISTORY':
+            return {...state,boughtProductsHistory: action.payload};
+        case 'SET_FAVORITEPRODUCTS':
+            return {...state,favoriteProducts: action.payload};
+        case 'SET_SHOPPINGCART':
+            return {...state,shoppingCart: action.payload};
+        case 'SET_SOLDPRODUCTSHISTORY':
+            return {...state,soldProductsHistory: action.payload};
+        case 'SET_SOLVINGPRODUCTS':
+            return {...state,solvingProducts: action.payload};
+        case 'SET_TRADEDPRODUCTSHISTORY':
+            return {...state,tradedProductsHistory: action.payload};
+        case 'SET_TRADINGPRODUCTS':
+            return {...state,tradingProducts: action.payload};
         default:
             return state;
     }

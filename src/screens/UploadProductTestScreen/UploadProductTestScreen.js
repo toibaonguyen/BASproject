@@ -56,7 +56,7 @@ const UploadProductTestScreen = () => {
         })
         //setisVisible(false)
       };
-    const openGallery=async() => {
+        const openGallery=async() => {
         const options={
           storageOptions:{
             path:'images',
@@ -121,7 +121,7 @@ const UploadProductTestScreen = () => {
         })
       };
     
-    
+    //bat dau tu day
     const postProduct=async ()=>{
       
       setImageList([]);
@@ -135,7 +135,8 @@ const UploadProductTestScreen = () => {
         sellerID:id,
         description:description,
         images:[],
-        status:"invalid",
+        status:"pending",
+        uploaddate:new Date().toLocaleString()
       })
 
       const docadded = await docRef
@@ -151,12 +152,9 @@ const UploadProductTestScreen = () => {
         const uri=file.uri;
         const response = await fetch(uri);
         const blob = await response.blob();
-        
-
         return ref
           .put(blob)
           .then(() => ref.getDownloadURL())
-
       });
       
       await Promise.all(promises)

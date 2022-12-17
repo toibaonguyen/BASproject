@@ -11,17 +11,13 @@ import ResetPasswordScreen from '../screens/ResetPasswordScreen'
 import { useSelector } from 'react-redux'
 import auth from '@react-native-firebase/auth'
 import MainAppScreen from '../screens/MainAppScreen'
-
+import ProductsmanageScreen from '../screens/ProductsmanageScreen'
 
 
 
 const Stack=createNativeStackNavigator()
 const AuthStack=()=>{
-
-
- 
-
-
+  
   return(
     <Stack.Navigator screenOptions={{headerShown:false}}>
             <Stack.Screen name='SignIn' component={SignInScreen} />

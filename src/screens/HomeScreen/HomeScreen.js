@@ -27,7 +27,7 @@ const HomeScreen = () => {
             const productslist=[];
             querySnapshot.forEach((documentSnapshot) => {
               console.log("ref: ",`products/product/${documentSnapshot.id}/representativeImage/i0`)
-              const ref=`products/product/${documentSnapshot.id}/representativeImage/i0.jpg`
+              const ref=`products/product/${documentSnapshot.id}/representativeImage/i0.jpg`             
               productslist.push({
                 ...documentSnapshot.data(),
                 id: documentSnapshot.id
@@ -53,16 +53,17 @@ const HomeScreen = () => {
         <FlatList 
         data={products} 
         showsVerticalScrollIndicator={false}
-        renderItem={({item})=>
-        <ProductItem item={item}
+        renderItem={({item})=>{
+          if(item.status=="valid")
+          return(<ProductItem item={item}/>)
+        }}
         />
-      }/>
       </View>    
   )
 }
 
 const styles=StyleSheet.create({
-  root:{},
+  root:{flex:1},
   image:{},
   loading:{justifyContent:"center",alignItems:"center",flex:1}
 })

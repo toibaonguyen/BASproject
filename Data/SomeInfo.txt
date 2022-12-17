@@ -1,6 +1,6 @@
 1: Các dạng status của mặt hàng khi người dùng post lên hệ thống:
 
-status=["invalid","valid","sold_out"];
+status=["pending","valid","cancelled"];
 
 2: Các dạng status đơn hàng bên phía người mua hàng
 
