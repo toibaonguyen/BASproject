@@ -10,13 +10,14 @@ import { useSelector } from 'react-redux'
 import ProductConditionItem from "../../components/ProductConditionItem"
 import { Item } from 'react-native-paper/lib/typescript/components/List/List'
 import Modal from "react-native-modal"
+import { useNavigation } from '@react-navigation/native'
 
 const Tab=createMaterialTopTabNavigator();
 
 
 
 
-const ProductsmanageScreen = ({navigation}) => {
+const ProductsmanageScreen = () => {
 
     
 
@@ -24,8 +25,8 @@ const ProductsmanageScreen = ({navigation}) => {
     const id=useSelector(state=>state.ReducerUserInfo.id);
 
     
-    const [selectedproduct,setSelectedProduct]=useState(products[0])
-    
+    const [selectedproduct,setSelectedProduct]=useState(null)
+    const navigation=useNavigation()
 
 
 
@@ -73,8 +74,8 @@ const ProductsmanageScreen = ({navigation}) => {
                 if(item.status=="valid"&&item.sellerID==id)
                 return <ProductConditionItem item={item} onPress={
                     ()=>{
-                        setSelectedProduct(item);
-                        navigation.navigate("ProductInfo", {id:selectedproduct.id});
+                    
+                        navigation.navigate("ProductInfo", {id:item.id});
                     }
                 }/>
                 }
@@ -130,7 +131,7 @@ const ProductsmanageScreen = ({navigation}) => {
             <Tab.Navigator>
                 <Tab.Screen name="pending" component={PendingProductsScreen}/>
                 <Tab.Screen name="confirmed" component={ConfirmedProductsScreen}/>
-                <Tab.Screen name="refused" component={RefusedProductsScreen}/>
+                <Tab.Screen name="cancelled" component={RefusedProductsScreen}/>
             </Tab.Navigator>
         </View>
             

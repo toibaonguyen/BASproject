@@ -8,6 +8,7 @@ import { Button } from 'react-native-paper'
 import firestore from '@react-native-firebase/firestore'
 import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import Stars from "react-native-stars"
 
 
 
@@ -18,11 +19,18 @@ const CartProductItem = ({item}) => {
   const id=useSelector(state=>state.ReducerUserInfo.id)
   const shoppingCart=useSelector(state=>state.ReducerUserInfo.shoppingCart)
   const index0 = products.findIndex(object => {
-    return object.id === item.id;
+    return object.id === item.productid;
   });
   const product=products[index0]
   
 
+  const rt=()=>{
+    let r1=0
+    item.feedbacks.forEach(element => {
+      r1+=Number(element.rating)
+    });
+    return r1/item.feedbacks.length
+  }
 
 
 
@@ -45,21 +53,36 @@ const CartProductItem = ({item}) => {
             <Image style={styles.image} source={{uri:product.image}}/>
             <View style={styles.rightContainer}>
                 <Text style={styles.title} maxFontSizeMultiplier={4}>{product.productname}</Text>
-                <View style={styles.ratingsContainer}>
-                    {
-                        [0,0,0,0,0].map((el,i)=>
-                        <Icon key={i}
-                        style={styles.star} 
-                        name={i<Math.floor(product.avgRating)?"star":"star-o"} 
-                        size={18} 
-                        color="#e47911"
-                        />
-                        )
-                    }   
-                    <Text><Text> (</Text>
-                        {product.ratings}
-                        <Text>)</Text></Text>
-                </View>
+                <View>
+          <Stars
+          half={true}
+          default={rt()}
+          count={5}
+          starSize={25}
+          disabled={true}
+          emptyStar={<Icon
+            name={'star-o'}
+            color="#e47911"
+            style={styles.star}
+            size={25}
+          />}
+          halfStar={<Icon
+            name={'star-half-full'}
+            color="#e47911"
+            style={styles.star}
+            size={25}
+          />
+          }
+          fullStar={
+            <Icon
+            name={'star'}
+            color="#e47911"
+            style={styles.star}
+            size={25}
+          />
+          }
+          />
+        </View>
                 <Text style={styles.price}>
                     {products[0].price} VNĐ
                     <Text> </Text>

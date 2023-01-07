@@ -86,12 +86,11 @@ const SignUpScreen = () => {
           avatar:baseavatar,
           favoriteProducts:[],
           products:[],//những mặt hàng đc đăng lên để bán
-          tradingProducts:[],//những mặt hàng đc đăng lên để trade
           solvingProducts:[],//những đơn hàng cần được xử lý
           boughtProductsHistory:[],//Lịch sử mua hàng
-          tradedProductsHistory:[],//Lịch sử trade hàng
           soldProductsHistory:[],//Lịch sử bán hàng
-          shoppingCart:[]
+          shoppingCart:[],
+          wallet:0
         })
       })
       .catch((e)=>{

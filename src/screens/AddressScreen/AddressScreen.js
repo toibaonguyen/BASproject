@@ -1,4 +1,4 @@
-import { View, Text, Alert,ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, Text, Alert,ScrollView, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native'
 import React, {useState} from 'react'
 import styles from "./styles"
 import { Picker } from '@react-native-picker/picker'
@@ -7,6 +7,10 @@ import CustomInput from '../../components/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import firestore from '@react-native-firebase/firestore'
 import { useSelector } from 'react-redux'
+
+
+
+
 const AddressScreen = ({route,navigation}) => {
 
 
@@ -16,23 +20,23 @@ const AddressScreen = ({route,navigation}) => {
   const shoppingCart=useSelector(state=>state.ReducerUserInfo.shoppingCart);
 
 
-
-
-
-
+  const [isloading,setisloading]=useState(false)
   const [fullname,setFullname]=useState("")
   const [phone,setPhone]=useState("")
   const [address,setAddress]=useState("")
   const [building,setBuilding]=useState("")
   const [chosenCity,setChosenCity]=useState(cities[0].city)
   const [addresserr,setAddresserr]=useState('')
-  console.log(chosenCity)
 
 
 
   const onUseAddress=async()=>{
 
     console.log("List is: ",list)
+
+
+
+    setisloading(true)
     const checkphonevalidation=(p)=>{
       let vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
       return vnf_regex.test(p)  
@@ -51,27 +55,76 @@ const AddressScreen = ({route,navigation}) => {
     }
 
     //start from here
-    await list.forEach(async (element,index) => {
+    
+    for(let i=0;i<list.length;i++){
       const index0 = products.findIndex(object => {
-        return object.id === element.id;
+        return object.id === list[i].productid;
       });
       const product=products[index0]
 
-      const docadded=await firestore().collection("SolvingProducts").add({
-        ...element,address:address+", "+building+", "+chosenCity,fullname:fullname,phone:phone,sellerID:product.sellerID,purchaserID:userid,status:"ordering"
-      })
-      await firestore().collection("Users").doc(product.sellerID).update({
-        solvingProducts:firestore.FieldValue.arrayUnion(docadded.id)
-      })
-      await firestore().collection("Users").doc(userid).update({
-        solvingProducts:firestore.FieldValue.arrayUnion(docadded.id),
-        shoppingCart:firestore.FieldValue.arrayRemove(element)
-      })
-      console.log(index)
+      if(Number(products[index0].maxQuantity)>=(Number(list[i].quantity)+Number(products[index0].tendtodecreaseQuantity))){
+        const docadded=await firestore().collection("SolvingProducts").add({
+          ...list[i],
+          address:address+", "+building+", "+chosenCity,
+          fullname:fullname,
+          phone:phone,
+          sellerID:product.sellerID,
+          purchaserID:userid,
+          status:"ordering",
+          date: String(new Date)+" "
+        })
+        await firestore().collection("Users").doc(product.sellerID).update({
+          solvingProducts:firestore.FieldValue.arrayUnion(docadded.id)
+        })
+        await firestore().collection("Users").doc(userid).update({
+          solvingProducts:firestore.FieldValue.arrayUnion(docadded.id),
+          shoppingCart:firestore.FieldValue.arrayRemove(list[i])
+        })
+        await firestore().collection("Products").doc(product.id).update({
+          tendtodecreaseQuantity: firestore.FieldValue.increment(list[i].quantity)
+        })
+      }
+    }
+    setisloading(false)
 
+/*
+    await list.forEach(async (element,index) => {
+      const index0 = products.findIndex(object => {
+        return object.id === element.productid;
+      });
+      const product=products[index0]
+      console.log("num1 ",Number(product.maxQuantity))
+      console.log("num2 ",Number(element.quantity))
+      console.log("num3 ",Number(product.tendtodecreaseQuantity))
+
+      if(Number(product.maxQuantity)>=(Number(element.quantity)+Number(product.tendtodecreaseQuantity))){
+
+        const docadded=await firestore().collection("SolvingProducts").add({
+          ...element,
+          address:address+", "+building+", "+chosenCity,
+          fullname:fullname,
+          phone:phone,
+          sellerID:product.sellerID,
+          purchaserID:userid,
+          status:"ordering",
+          date: String(new Date)+" "
+        })
+        await firestore().collection("Users").doc(product.sellerID).update({
+          solvingProducts:firestore.FieldValue.arrayUnion(docadded.id)
+        })
+        await firestore().collection("Users").doc(userid).update({
+          solvingProducts:firestore.FieldValue.arrayUnion(docadded.id),
+          shoppingCart:firestore.FieldValue.arrayRemove(element)
+        }).then(async()=>{
+          await firestore().collection("Products").doc(product.id).update({
+          tendtodecreaseQuantity: firestore.FieldValue.increment(Number(element.quantity))
+        })
+        })
+      }
     })
+    */
     
-      navigation.navigate("SuccessfulOrder");
+    navigation.navigate("SuccessfulOrder");
     
 
 
@@ -80,6 +133,13 @@ const AddressScreen = ({route,navigation}) => {
   const onChangeAddressText=(t)=>{
     setAddress(t); 
     setAddresserr('')
+  }
+  if(isloading){
+    return(
+      <View style={{height:"100%",width:"100%"}}>
+        <ActivityIndicator/>
+      </View>
+    )
   }
   return (
     <KeyboardAvoidingView
@@ -118,9 +178,6 @@ const AddressScreen = ({route,navigation}) => {
         <CustomInput placeholder="Apt, Suite, Unit, Building (optional)" value={building} setvalue={setBuilding}/>
       </View>
       <CustomButton text="Use this address" onPress={onUseAddress}/>
-      
-      
-      
     </ScrollView>
     </KeyboardAvoidingView>
     

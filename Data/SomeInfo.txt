@@ -4,5 +4,16 @@ status=["pending","valid","cancelled"];
 
 2: Các dạng status đơn hàng bên phía người mua hàng
 
-status=["ordering","confirmed","cancelled","deliverying"]
+status=["ordering","confirmed","cancelled","deliverying","done"]
+
+3: dạng object của 
+
+
+
+boughtProductsHistory
+{
+    solvingID: value0,
+    receiveddate: value1,
+    already_giveFeedback: value2
+}
 

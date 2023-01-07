@@ -115,17 +115,18 @@ export const setsolvingProducts = (items)=> dispatch => {
         payload: items
     })
 }
-export const settradedProductsHistory = (items)=> dispatch => {
-    console.log("tradedProductsHistory: ",items)
+
+export const setlistofsolvingProducts = (items)=> dispatch => {
+    console.log("solvingProducts: ",items)
     dispatch({
-        type: 'SET_TRADEDPRODUCTSHISTORY',
+        type: 'SET_LISTSOLVINGPRODUCTS',
         payload: items
     })
 }
-export const settradingProducts = (items)=> dispatch => {
-    console.log("tradingProducts: ",items)
+export const setwallet = (items)=> dispatch => {
+    console.log("solvingProducts: ",items)
     dispatch({
-        type: 'SET_TRADINGPRODUCTS',
+        type: 'SET_WALLET',
         payload: items
     })
 }

@@ -19,6 +19,7 @@ const ProductConditionItem = ({item,onPress}) => {
     else{
       setIcon("remove")
     }
+    
   },[])
 
   return (
@@ -26,6 +27,7 @@ const ProductConditionItem = ({item,onPress}) => {
             <View style={styles.leftside}>
               <Text style={styles.title}>{item.productname}</Text>
               <Text>{item.uploaddate}</Text>
+              <Text>Quantity: <Text style={item.maxQuantity==0?styles.maxQuantity0:styles.maxQuantity1}>{item.maxQuantity}</Text></Text>
             </View>
             <View style={styles[`rightside_${item.status}`]}>
               <Icon name={icon} size={30} color={"#FFF"}/>
@@ -109,6 +111,14 @@ const styles=StyleSheet.create({
   title:{
     fontWeight:"bold",
     color:"#004E8E"
+  },
+  maxQuantity1:{
+    color:"green",
+    fontWeight:"bold"
+  },
+  maxQuantity0:{
+    color:"red",
+    fontWeight:"bold"
   }
 
 

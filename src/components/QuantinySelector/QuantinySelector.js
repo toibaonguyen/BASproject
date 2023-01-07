@@ -3,12 +3,20 @@ import React from 'react'
 
 const QuantinySelector = ({quantity,setQuantity,maxQuantity}) => {
   const onMinus=()=>{
+    if(maxQuantity<=0){
+      setQuantity(0)
+      return;
+    }
     if(quantity==1||quantity==0){
       return;
     }
     setQuantity(quantity-1)
   }
   const onPlus=()=>{
+    if(maxQuantity<=0){
+      setQuantity(0)
+      return;
+    }
     if(quantity==maxQuantity){
       return;
     }
@@ -16,7 +24,7 @@ const QuantinySelector = ({quantity,setQuantity,maxQuantity}) => {
       setQuantity(maxQuantity)
       return;
     }
-    setQuantity(quantity+1)
+    setQuantity(Number(quantity)+1)
   }
   return (
     <View style={styles.root}>

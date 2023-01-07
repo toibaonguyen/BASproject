@@ -16,8 +16,7 @@ const InitialUserInfoState ={
     shoppingCart:[],
     soldProductsHistory:[],
     solvingProducts:[],
-    tradedProductsHistory:[],
-    tradingProducts:[],
+    wallet:0,
 }
 
 const InitialLogicFrontEndState ={
@@ -29,6 +28,13 @@ const InitialLogicFrontEndState ={
 const InitialListofProducts={
     products:[]
 }
+
+const InitialListofSolvingProducts={
+    solvingProducts:[]
+}
+
+
+
 export function ReducerUserInfo(state=InitialUserInfoState,action){
     switch (action.type){
 
@@ -58,10 +64,8 @@ export function ReducerUserInfo(state=InitialUserInfoState,action){
             return {...state,soldProductsHistory: action.payload};
         case 'SET_SOLVINGPRODUCTS':
             return {...state,solvingProducts: action.payload};
-        case 'SET_TRADEDPRODUCTSHISTORY':
-            return {...state,tradedProductsHistory: action.payload};
-        case 'SET_TRADINGPRODUCTS':
-            return {...state,tradingProducts: action.payload};
+        case 'SET_WALLET':
+            return {...state,wallet: action.payload};
         default:
             return state;
     }
@@ -84,6 +88,15 @@ export function ReducerListofProducts(state=InitialListofProducts,action){
     switch(action.type){
         case 'SET_PRODUCTS':
             return {products:action.payload};
+        default:
+            return state;
+    }
+}
+
+export function ReducerListofSolvingProducts(state = InitialListofSolvingProducts, action){
+    switch(action.type){
+        case 'SET_LISTSOLVINGPRODUCTS':
+            return {solvingProducts:action.payload};
         default:
             return state;
     }
