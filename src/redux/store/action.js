@@ -1,11 +1,8 @@
 
 export const setuserid = (userid) =>async dispatch=> {
-
-    let id=userid;
-    console.log("Userid: ",id)
     dispatch({
         type: 'SET_USERID',
-        payload: id
+        payload: userid
     })
 }
 export const setusername = (username)=>async dispatch => {
@@ -21,7 +18,6 @@ export const setuserphone = (userpassword)=>async dispatch => {
     })
 }
 export const setuseremail = (useremail)=>async dispatch => {
-    console.log("Email: ",useremail)
     dispatch({
         type: 'SET_USEREMAIL',
         payload: useremail
@@ -52,7 +48,6 @@ export const setisstartingup = (isstartingup)=>async dispatch => {
     })
 }
 export const setuseravatar = (ava)=>async dispatch => {
-    console.log("Avatar: ",ava)
     dispatch({
         type: 'SET_USERAVATAR',
         payload: ava
@@ -66,14 +61,12 @@ export const setbaseavatar = (ava)=> async dispatch => {
     })
 }
 export const setproducts = (items)=> dispatch => {
-    console.log("Products: ",items)
     dispatch({
         type: 'SET_PRODUCTS',
         payload: items
     })
 }
 export const setUserproducts = (items)=> dispatch => {
-    console.log("USERProducts: ",items)
     dispatch({
         type: 'SET_USERPRODUCTS',
         payload: items
@@ -81,35 +74,30 @@ export const setUserproducts = (items)=> dispatch => {
     })
 }
 export const setboughtProductsHistory = (items)=> dispatch => {
-    console.log("boughtProductsHistory: ",items)
     dispatch({
         type: 'SET_BOUGHTPRODUCTSHISTORY',
         payload: items
     })
 }
 export const setfavoriteProducts = (items)=> dispatch => {
-    console.log("favoriteProducts: ",items)
     dispatch({
         type: 'SET_FAVORITEPRODUCTS',
         payload: items
     })
 }
 export const setshoppingCart = (items)=> dispatch => {
-    console.log("shoppingCart: ",items)
     dispatch({
         type: 'SET_SHOPPINGCART',
         payload: items
     })
 }
 export const setsoldProductsHistory = (items)=> dispatch => {
-    console.log("soldProductsHistory: ",items)
     dispatch({
         type: 'SET_SOLDPRODUCTSHISTORY',
         payload: items
     })
 }
 export const setsolvingProducts = (items)=> dispatch => {
-    console.log("solvingProducts: ",items)
     dispatch({
         type: 'SET_SOLVINGPRODUCTS',
         payload: items
@@ -117,16 +105,22 @@ export const setsolvingProducts = (items)=> dispatch => {
 }
 
 export const setlistofsolvingProducts = (items)=> dispatch => {
-    console.log("solvingProducts: ",items)
     dispatch({
         type: 'SET_LISTSOLVINGPRODUCTS',
         payload: items
     })
 }
+
 export const setwallet = (items)=> dispatch => {
-    console.log("solvingProducts: ",items)
     dispatch({
         type: 'SET_WALLET',
+        payload: items
+    })
+}
+
+export const setbaseproductImage=(item)=>dispatch=>{
+    dispatch({
+        type: 'SET_BASEPRODUCTIMAGE',
         payload: items
     })
 }

@@ -25,7 +25,7 @@ import { Provider } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useEffect,useState } from 'react';
 import auth from "@react-native-firebase/auth"
-import { setuseremail,setuserid,setusername,setbaseavatar } from './src/redux/store/action';
+import { setuseremail,setuserid,setusername,setbaseavatar,setbaseproductImage } from './src/redux/store/action';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import InitializingScreen from './src/screens/InitializingScreen';
@@ -55,6 +55,8 @@ const App= () => {
   useEffect(() => {
     async function getbaseavatar(){
       const url=await storage().ref('avatar/baseAvatar/avatar.jpg').getDownloadURL();
+      const productbaseurl=await storage().ref('products/baseImage/image.png').getDownloadURL();
+    //  await dispatch(setbaseproductImage(productbaseurl));
       await dispatch(setbaseavatar(url));
       await setIsInitializing(false);
     }

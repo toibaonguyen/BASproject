@@ -2,7 +2,8 @@ import {View, Text, Pressable, StyleSheet, Image} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
-import Stars from "react-native-stars"
+import Stars from "react-native-stars";
+
 
 
 
@@ -16,7 +17,7 @@ const ProductItem = ({item}) => {
 
 
 
-  
+
   const onItemPressed = () => {
     console.log(item.id);
     navigation.navigate('ProductInfo', {id: item.id});
@@ -29,7 +30,7 @@ const ProductItem = ({item}) => {
     return r1/item.feedbacks.length
   }
   //can it be render???
-  if (item.maxQuantity - item.tendtodecreaseQuantity > 0) {
+  if (true) {
     return (
       <Pressable onPress={onItemPressed} key={item.id} style={styles.page}>
         <View style={styles.root}>
@@ -41,7 +42,7 @@ const ProductItem = ({item}) => {
             <View>
           <Stars
           half={true}
-          default={rt()}
+          display={rt()}
           count={5}
           starSize={25}
           disabled={true}

@@ -131,6 +131,7 @@ const PostProductScreen = () => {
 
 
   const postProduct=async ()=>{
+    
       
     setImageList([]);
 
@@ -139,7 +140,8 @@ const PostProductScreen = () => {
         return
     }
 
-    setisloading(true);
+    await setIsloading(true)
+    
     const docRef =firestore().collection('Products').add({
       productname:name,
       maxQuantity:maxquantity,
@@ -194,84 +196,87 @@ const PostProductScreen = () => {
     })
     .then(()=>{
         //navigation.navigate("PrimaryUI",{screen:"home"})
-        setIsloading(false)
+        
         navigation.navigate("SuccessfulPost")
     })
   }
-  if(isloading){
+  if(isloading==true){
     return(
         <View style={{height:"100%",width:"100%",alignItems:"center",justifyContent:"center"}}>
             <ActivityIndicator size="large"/>
         </View>
     )
   }
-
-
-
-  return (
-    <View style={{height:"100%",width:"100%"}}>
-        <Modal isVisible={isVisible}>
-            <View style={{width:"60%",paddingTop:15,alignItems:"center",backgroundColor:"#FFF",borderRadius:15,alignSelf:"center"}}>
-                <Text style={{alignSelf:"center"}}>Where do you want to get it?</Text>
-                <Button onPress={openCamera}>Take a photo now</Button>
-                <Button onPress={openGallery}>Get from my gallery</Button>
-                <Button onPress={()=>{setIsvisible(false)}}>Cancel</Button>
-            </View>
-        </Modal>
-        <ScrollView>
-            <View style={{borderWidth:1,marginTop:20,backgroundColor:"#fff",width:200,height:200,alignSelf:"center",marginBottom:5}}>
-                <Image style={{alignSelf:"center",width:200,height:200}} source={{uri:image.uri}}/>
-            </View>
-            <Button onPress={()=>{setIsvisible(true)}}>Choose representative image</Button>
-            <View style={{borderWidth:1,marginTop:10,backgroundColor:"#fff",height:60,marginHorizontal:10,justifyContent:"center",alignItems:"center",marginBottom:5}}>
-                <FlatList horizontal={true}
-                style={{marginTop:5}}
-                data={images}
-                renderItem={
-                    ({item})=>(<Image style={{height:50,width:50}} source={{uri:item.uri}}/>)
-                }
-                />
-            </View>
-            <Button onPress={openGalleryformultiplepickers}>Choose other images</Button>
-
-            <Text style={{marginLeft:15,marginTop:10}}>
-              Category
-            </Text>
-            <Picker selectedValue={chosenCategory} onValueChange={setChosenCategory}>
-              {
-                categories.map((i)=>(
-                  <Picker.Item 
-                  key={i.id}
-                  value={i.name}
-                  label={i.name}
+  else{
+    return (
+      <View style={{height:"100%",width:"100%"}}>
+          <Modal isVisible={isVisible}>
+              <View style={{width:"60%",paddingTop:15,alignItems:"center",backgroundColor:"#FFF",borderRadius:15,alignSelf:"center"}}>
+                  <Text style={{alignSelf:"center"}}>Where do you want to get it?</Text>
+                  <Button onPress={openCamera}>Take a photo now</Button>
+                  <Button onPress={openGallery}>Get from my gallery</Button>
+                  <Button onPress={()=>{setIsvisible(false)}}>Cancel</Button>
+              </View>
+          </Modal>
+          <ScrollView>
+              <View style={{borderWidth:1,marginTop:20,backgroundColor:"#fff",width:200,height:200,alignSelf:"center",marginBottom:5}}>
+                  <Image style={{alignSelf:"center",width:200,height:200}} source={{uri:image.uri}}/>
+              </View>
+              <Button onPress={()=>{setIsvisible(true)}}>Choose representative image</Button>
+              <View style={{borderWidth:1,marginTop:10,backgroundColor:"#fff",height:60,marginHorizontal:10,justifyContent:"center",alignItems:"center",marginBottom:5}}>
+                  <FlatList horizontal={true}
+                  style={{marginTop:5}}
+                  data={images}
+                  renderItem={
+                      ({item})=>(<Image style={{height:50,width:50}} source={{uri:item.uri}}/>)
+                  }
                   />
-                ))
-              }
-            </Picker>
-            <View style={{marginTop:15,paddingHorizontal:10}}>
-              <CustomInput placeholder={"Name"} value={name} setvalue={setName}/>
-              <CustomInput placeholder={"Price (VNĐ)"} keyboardType={"number-pad"} value={price} setvalue={setPrice}/>
-              <CustomInput placeholder={"Max quantity"} keyboardType={"number-pad"} value={maxquantity} setvalue={setmaxquantity}/>
-            </View>
-            <Text style={{marginLeft:15,marginTop:10}}>Description:</Text>
-            <View
-             style={{
-             backgroundColor: "#fff",
-             marginTop:15,
-             marginHorizontal:10,
-             marginBottom:10,
-             borderLeftWidth:1,
-             borderRightWidth:1
-            }}>
-              <TextInput multiline style={{padding:10}} value={description} onChangeText={setDescription} editable={true}/>
-            </View>
-            <View style={{marginTop:10,marginBottom:10,alignItems:"center"}}>
-                <Button mode="contained" onPress={postProduct}>Submit</Button>
-            </View>
-            
-        </ScrollView>
-    </View>
-  )
+              </View>
+              <Button onPress={openGalleryformultiplepickers}>Choose other images</Button>
+  
+              <Text style={{marginLeft:15,marginTop:10}}>
+                Category
+              </Text>
+              <Picker selectedValue={chosenCategory} onValueChange={setChosenCategory}>
+                {
+                  categories.map((i)=>(
+                    <Picker.Item 
+                    key={i.id}
+                    value={i.name}
+                    label={i.name}
+                    />
+                  ))
+                }
+              </Picker>
+              <View style={{marginTop:15,paddingHorizontal:10}}>
+                <CustomInput placeholder={"Name"} value={name} setvalue={setName}/>
+                <CustomInput placeholder={"Price (VNĐ)"} keyboardType={"number-pad"} value={price} setvalue={setPrice}/>
+                <CustomInput placeholder={"Max quantity"} keyboardType={"number-pad"} value={maxquantity} setvalue={setmaxquantity}/>
+              </View>
+              <Text style={{marginLeft:15,marginTop:10}}>Description:</Text>
+              <View
+               style={{
+               backgroundColor: "#fff",
+               marginTop:15,
+               marginHorizontal:10,
+               marginBottom:10,
+               borderLeftWidth:1,
+               borderRightWidth:1
+              }}>
+                <TextInput multiline style={{padding:10}} value={description} onChangeText={setDescription} editable={true}/>
+              </View>
+              <View style={{marginTop:10,marginBottom:10,alignItems:"center"}}>
+                  <Button mode="contained" onPress={postProduct}>Submit</Button>
+              </View>
+              
+          </ScrollView>
+      </View>
+    )
+  }
+
+
+
+  
 }
 
 export default PostProductScreen

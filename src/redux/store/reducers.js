@@ -17,6 +17,7 @@ const InitialUserInfoState ={
     soldProductsHistory:[],
     solvingProducts:[],
     wallet:0,
+
 }
 
 const InitialLogicFrontEndState ={
@@ -26,7 +27,8 @@ const InitialLogicFrontEndState ={
 }
 
 const InitialListofProducts={
-    products:[]
+    products:[],
+    baseProductImage:""
 }
 
 const InitialListofSolvingProducts={
@@ -88,6 +90,8 @@ export function ReducerListofProducts(state=InitialListofProducts,action){
     switch(action.type){
         case 'SET_PRODUCTS':
             return {products:action.payload};
+        case 'SET_BASEPRODUCTIMAGE':
+            return {baseProductImage:action.payload};
         default:
             return state;
     }

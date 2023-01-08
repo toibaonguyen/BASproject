@@ -195,7 +195,10 @@ const HomeScreen = () => {
       (
       <View style={styles.body}>
         <ScrollView>
-          <HomeProductItem item={products[0]} />
+          {
+            <HomeProductItem item={products[0]}/>
+          }
+          
         </ScrollView>
       </View>
       )

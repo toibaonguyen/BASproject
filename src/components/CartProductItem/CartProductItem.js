@@ -26,10 +26,10 @@ const CartProductItem = ({item}) => {
 
   const rt=()=>{
     let r1=0
-    item.feedbacks.forEach(element => {
+    product.feedbacks.forEach(element => {
       r1+=Number(element.rating)
     });
-    return r1/item.feedbacks.length
+    return r1/product.feedbacks.length
   }
 
 
@@ -53,10 +53,10 @@ const CartProductItem = ({item}) => {
             <Image style={styles.image} source={{uri:product.image}}/>
             <View style={styles.rightContainer}>
                 <Text style={styles.title} maxFontSizeMultiplier={4}>{product.productname}</Text>
-                <View>
+            <View>
           <Stars
           half={true}
-          default={rt()}
+          display={rt()}
           count={5}
           starSize={25}
           disabled={true}

@@ -78,7 +78,7 @@ const HomeProductItem = ({item}) => {
         <View>
           <Stars
           half={true}
-          default={rt()}
+          display={rt()}
           count={5}
           starSize={25}
           disabled={true}
