@@ -21,6 +21,8 @@ import {setisloading} from '../../redux/store/action';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Stars from 'react-native-stars';
 import {FlatList} from 'react-native-gesture-handler';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Feedback = ({name, rating, comment}) => {
   return (
@@ -65,10 +67,6 @@ const Feedback = ({name, rating, comment}) => {
   );
 };
 
-
-
-
-
 const ProductScreen = ({route, navigation}) => {
   const id = route.params.id;
   const userid = useSelector(state => state.ReducerUserInfo.id);
@@ -79,14 +77,14 @@ const ProductScreen = ({route, navigation}) => {
   const products = useSelector(state => state.ReducerListofProducts.products);
   const baseavatar = useSelector(state => state.ReducerUserInfo.baseavatar);
   const product =
-    products[
-      products.findIndex(object => {
+    products[products.findIndex(object => {
         return object.id === id;
       })
     ];
 
   const [sellername, setSellername] = useState('');
   const [selleravatar, setSelleravatar] = useState(baseavatar);
+  const [sellerType, setSellerType] = useState('common');
   const [selectedOption, setselectedOption] = useState(
     product.options ? product.options[0] : '',
   );
@@ -106,7 +104,6 @@ const ProductScreen = ({route, navigation}) => {
 
   //Can you leave a feedback is here
 
-
   const rt = () => {
     let r1 = 0;
     product.feedbacks.forEach(element => {
@@ -114,17 +111,6 @@ const ProductScreen = ({route, navigation}) => {
     });
     return r1 / product.feedbacks.length;
   };
-
-
-
-
-
-
-
-
-
-
-
 
   const pushtosellerspage = () => {
     navigation.push('Sellerspage', {
@@ -158,6 +144,7 @@ const ProductScreen = ({route, navigation}) => {
       .then(async q => {
         await setSellername(q.data().username);
         await setSelleravatar(q.data().avatar);
+        await setSellerType(q.data().usertype);
       })
       .catch(e => {
         console.log(e);
@@ -263,24 +250,6 @@ const ProductScreen = ({route, navigation}) => {
     }
   };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   if (product.status == 'cancelled') {
     return (
       <View
@@ -297,13 +266,13 @@ const ProductScreen = ({route, navigation}) => {
     return (
       <ScrollView style={{backgroundColor: 'white'}}>
         <View style={styles.root}>
-          <ImageCarousel images={JSON.parse(JSON.stringify(product.images)) } />
+          <ImageCarousel images={JSON.parse(JSON.stringify(product.images))} />
           <Text style={styles.title}>{product.productname}</Text>
           {product.options && (
             <Picker
               selectedValue={selectedOption}
               onValueChange={itemvalue => setselectedOption(itemvalue)}>
-              {options.map((option, i) => (
+              {product.options.map((option, i) => (
                 <Picker.Item key={i} label={option} value={option} />
               ))}
             </Picker>
@@ -328,38 +297,40 @@ const ProductScreen = ({route, navigation}) => {
             )}
           </View>
           <View style={{marginTop: 15}}>
-            <Text style={{fontWeight: 'bold'}}>Rating:</Text>{
-            <Stars
-              half={true}
-              display={rt()}
-              count={5}
-              starSize={25}
-              disabled={true}
-              emptyStar={
-                <Icon
-                  name={'star-o'}
-                  color="#e47911"
-                  style={styles.star}
-                  size={25}
-                />
-              }
-              halfStar={
-                <Icon
-                  name={'star-half-full'}
-                  color="#e47911"
-                  style={styles.star}
-                  size={25}
-                />
-              }
-              fullStar={
-                <Icon
-                  name={'star'}
-                  color="#e47911"
-                  style={styles.star}
-                  size={25}
-                />
-              }
-            />}
+            <Text style={{fontWeight: 'bold'}}>Rating:</Text>
+            {
+              <Stars
+                half={true}
+                display={rt()}
+                count={5}
+                starSize={25}
+                disabled={true}
+                emptyStar={
+                  <Icon
+                    name={'star-o'}
+                    color="#e47911"
+                    style={styles.star}
+                    size={25}
+                  />
+                }
+                halfStar={
+                  <Icon
+                    name={'star-half-full'}
+                    color="#e47911"
+                    style={styles.star}
+                    size={25}
+                  />
+                }
+                fullStar={
+                  <Icon
+                    name={'star'}
+                    color="#e47911"
+                    style={styles.star}
+                    size={25}
+                  />
+                }
+              />
+            }
             <Text style={{alignSelf: 'center'}}>
               (<Text>{product.feedbacks.length}</Text>)
             </Text>
@@ -423,32 +394,48 @@ const ProductScreen = ({route, navigation}) => {
               fgColor="black"
             />
           )}
-          {product.sellerID == userid && <Text>Max quantity: </Text>}
           {product.sellerID == userid && (
-            <QuantinySelector
-              quantity={quantityWanttosetmax}
-              setQuantity={setQuantityWanttosetmax}
-            />
-          )}
-          {product.sellerID == userid && (
-            <CustomButton
-              text="Update Quantity"
-              bgColor={'#E77B27'}
-              onPress={onUpdateQuantityPressed}
-            />
-          )}
-          {product.sellerID == userid && (
-            <CustomButton
-              text="Remove"
-              bgColor={'#D7D7D7'}
-              onPress={onRemoveProduct}
-            />
+            <View>
+              <View style={{marginTop: 15, marginBottom: 15}}>
+                <Text>Max quantity: </Text>
+                <QuantinySelector
+                  quantity={quantityWanttosetmax}
+                  setQuantity={setQuantityWanttosetmax}
+                />
+              </View>
+              <CustomButton
+                text="Update Quantity"
+                bgColor={'#E77B27'}
+                onPress={onUpdateQuantityPressed}
+              />
+              <CustomButton
+                text="Remove"
+                bgColor={'#D7D7D7'}
+                onPress={onRemoveProduct}
+              />
+            </View>
           )}
           {product.sellerID != userid && (
             <View style={styles.avatarseller}>
               <Pressable onPress={pushtosellerspage}>
                 <Avatar.Image source={{uri: selleravatar}} />
-                <Text style={{marginLeft: 10}}>{sellername}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Text style={{marginLeft: 10}}>{sellername}</Text>
+                  {sellerType === 'licensed' && (
+                    <FontAwesome
+                      name="check-circle"
+                      color={'#1394FF'}
+                      style={{marginLeft: 5}}
+                    />
+                  )}
+                  {sellerType === 'authentic' && (
+                    <MaterialCommunityIcons
+                      name="star-circle"
+                      color={'#FFBD00'}
+                      style={{marginLeft: 5}}
+                    />
+                  )}
+                </View>
               </Pressable>
             </View>
           )}
@@ -463,14 +450,22 @@ const ProductScreen = ({route, navigation}) => {
             }}>
             Feedback:
           </Text>
-          {
-          product.feedbacks.length>0?(<ScrollView>
-            {
-              product.feedbacks.map((i,index)=><Feedback key={index} name={i.name} comment={i.comment} rating={i.rating}/>)
-            }
-          </ScrollView>):(
+          {product.feedbacks.length > 0 ? (
+            <ScrollView>
+              {product.feedbacks.map((i, index) => (
+                <Feedback
+                  key={index}
+                  name={i.name}
+                  comment={i.comment}
+                  rating={i.rating}
+                />
+              ))}
+            </ScrollView>
+          ) : (
             <View>
-              <Text style={{alignSelf:"center",margin:10}}>There is no feedback here</Text>
+              <Text style={{alignSelf: 'center', margin: 10}}>
+                There is no feedback here
+              </Text>
             </View>
           )}
         </View>

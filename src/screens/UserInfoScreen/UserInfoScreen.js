@@ -38,11 +38,14 @@ import {
 } from '../../redux/store/action';
 import CustomInput from '../../components/CustomInput';
 import {useNavigation} from '@react-navigation/native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const UserInfoScreen = () => {
+
   const [image, setImage] = useState({uri: ''});
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
@@ -55,6 +58,7 @@ const UserInfoScreen = () => {
   const fullname = useSelector(state => state.ReducerUserInfo.name);
   const phone = useSelector(state => state.ReducerUserInfo.phone);
   const avatar = useSelector(state => state.ReducerUserInfo.avatar);
+  const usertype = useSelector(state => state.ReducerUserInfo.usertype);
 
   const [username0, setusername0] = useState(username);
   const [fullname0, setfullname0] = useState(fullname);
@@ -71,6 +75,9 @@ const UserInfoScreen = () => {
   const onFavoriteProducts = () => {
     navigation.navigate('FavoriteProducts');
   };
+  const onpostsupporttemp=()=>{
+    
+  }
   const onPayment = () => {
     navigation.navigate('Paymentmethod');
   };
@@ -292,6 +299,7 @@ const UserInfoScreen = () => {
             />
           </View>
         </Modal>
+        
         <View
           style={{
             width: width,
@@ -303,17 +311,28 @@ const UserInfoScreen = () => {
             source={UserInfoScreenBG}
             resizeMode="cover"
             style={{flex: 1, justifyContent: 'center'}}>
-              <Pressable
-                onPress={() => {
-                  setisVisible(true);
-                }}>
-                <Avatar.Image source={{uri: avatar}}/>
-              </Pressable>
+            <Pressable
+              onPress={() => {
+                setisVisible(true);
+              }}>
+              <Avatar.Image source={{uri: avatar}} />
+            </Pressable>
             <View style={{marginLeft: 15, marginTop: 15}}>
-              <Text
-                style={{fontWeight: 'bold', fontSize: 20, color: '#DDE5F0'}}>
-                {username}
-              </Text>
+              <View style={{flexDirection: 'row',alignItems:"center"}}>
+                <Text
+                  style={{fontWeight: 'bold', fontSize: 20, color: '#DDE5F0'}}>
+                  {username}
+                </Text>
+                {usertype === 'licensed' && (
+                  <FontAwesome name="check-circle" color={'#1394FF'} style={{marginLeft:5}}/>
+                )}
+                {usertype === 'authentic' && 
+                (
+                  <MaterialCommunityIcons name="star-circle" color={'#FFBD00'} style={{marginLeft:5}}/>
+                )
+                }
+              </View>
+
               <Text style={{color: '#DDE5F0'}}>{id}</Text>
             </View>
           </ImageBackground>
@@ -376,13 +395,7 @@ const UserInfoScreen = () => {
             type="TERTIARY"
             onPress={onpostproduct}
           />
-          <CustomBtnWithIcon
-            text="Support"
-            iconname="solution1"
-            bgColor="white"
-            fgColor="black"
-            type="TERTIARY"
-          />
+          
         </View>
         <View style={{flexDirection: 'column-reverse', width: width - 50}}>
           <CustomButton

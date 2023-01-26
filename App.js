@@ -50,8 +50,6 @@ const App= () => {
       dispatch(setuserid((null)))
     }  
   };
-
-
   useEffect(() => {
     async function getbaseavatar(){
       const url=await storage().ref('avatar/baseAvatar/avatar.jpg').getDownloadURL();
@@ -78,17 +76,17 @@ const App= () => {
 
 
   return (
-    
-   
-    <SafeAreaView style={styles.root}>
       <Navigation/>
-    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  root:{flex:1}
+
+  root:{
+    flex:1
+  },
   
+
 });
 
 export default App;

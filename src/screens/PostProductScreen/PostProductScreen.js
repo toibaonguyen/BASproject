@@ -163,7 +163,7 @@ const PostProductScreen = () => {
 
     const url = await storage().ref(`products/product/${docadded.id}/representativeImage/i0`).getDownloadURL();
 
-    await firestore().collection('Products').doc(docadded.id).update({'image':url});
+    await firestore().collection('Products').doc(docadded.id).update({'thumbnail':url});
     //do something with image list here
     const promises =await images.map(async(file,index) => {
       const ref = storage().ref(`products/product/${docadded.id}/Images/i${index+1}`);

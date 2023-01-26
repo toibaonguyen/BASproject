@@ -7,21 +7,14 @@ import Stars from "react-native-stars";
 
 
 
-const ProductItem = ({item}) => {
+
+const ProductItemforAD = ({item}) => {
+
   const navigation = useNavigation();
-
-
-
-
-
-
-
-
-
   const onItemPressed = () => {
-    console.log(item.id);
-    navigation.navigate('ProductInfo', {id: item.id});
+    navigation.navigate('productScreen', {id: item.id});
   };
+
   const rt=()=>{
     let r1=0
     item.feedbacks.forEach(element => {
@@ -39,35 +32,7 @@ const ProductItem = ({item}) => {
             <Text style={styles.title} maxFontSizeMultiplier={4}>
               {item.productname}
             </Text>
-            <View>
-          <Stars
-          half={true}
-          display={rt()}
-          count={5}
-          starSize={25}
-          disabled={true}
-          emptyStar={<Icon
-            name={'star-o'}
-            color="#e47911"
-            style={styles.star}
-            size={25}
-          />}
-          halfStar={<Icon
-            name={'star-half-full'}
-            color="#e47911"
-            style={styles.star}
-            size={25}
-          />
-          }
-          fullStar={
-            <Icon
-            name={'star'}
-            color="#e47911"
-            style={styles.star}
-            size={25}
-          />
-          }
-          />
+          <View>
         </View>
             <Text style={styles.price}>
               {item.price} VNĐ
@@ -76,6 +41,7 @@ const ProductItem = ({item}) => {
                 <Text style={styles.oldPrice}>{item.oldprice} VNĐ</Text>
               )}
             </Text>
+            
           </View>
         </View>
       </Pressable>
@@ -118,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductItem;
+export default ProductItemforAD;

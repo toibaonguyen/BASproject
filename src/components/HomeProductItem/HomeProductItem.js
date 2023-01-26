@@ -27,25 +27,26 @@ const HomeProductItem = ({item}) => {
   return (
     <Pressable
       style={{
-        width: 200,
+        width: 190,
         borderWidth: 1,
         borderColor: 'black',
         height: 250,
         borderRadius: 20,
         alignItems: 'center',
+        margin:10
       }}
       onPress={onItemPressed}>
       <View
         style={{
           marginTop: 10,
-          width: 180,
+          width: "90%",
           height: '50%',
           borderRadius: 20,
           justifyContent: 'center',
           alignItems: 'center',
           
         }}>
-        <Image style={{height: '100%', width: '100%',borderRadius:20}} source={{uri:item.image}} />
+        <Image style={{height: '100%', width: '100%',borderRadius:20}} source={{uri:item.thumbnail}} />
       </View>
       <View style={{width: '100%', marginTop: 5, paddingHorizontal: 10}}>
         <Text

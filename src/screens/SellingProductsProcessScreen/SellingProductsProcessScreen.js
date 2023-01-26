@@ -103,6 +103,10 @@ const SellingProductsProcessScreen = () => {
     )
   }
 
+
+
+
+
   const ProcessItem1=({item})=>{
     const index0=listofsolvingProducts.findIndex( object => {
       return object.id === item.solvingID;
@@ -114,7 +118,7 @@ const SellingProductsProcessScreen = () => {
     const onPress=()=>{
       
     }
-    if(listofsolvingProducts[index0].sellerID==id&&listofsolvingProducts[index0].status!=="cancelled"&&listofsolvingProducts[index0].status!=="done")
+    if(listofsolvingProducts[index0].sellerID==id&&listofsolvingProducts[index0].status==="done")
     return(
       <View
       style={{flexDirection:"row",height:200,borderWidth:1,margin:5,backgroundColor:"#fff"}}
@@ -170,9 +174,9 @@ const SellingProductsProcessScreen = () => {
             <Text>Name: {statewiththismodal.fullname}</Text>
             <Text>Phone: {statewiththismodal.phone}</Text>
             {loading&& <ActivityIndicator size={"large"} color={"#0000ff"}/>} 
-            {!loading&&<Button onPress={updateconfirm}>Confirm</Button>}
-            {!loading&&<Button onPress={updatecancel}>Cancel</Button>}
-            {!loading&&<Button onPress={()=>{setIsmodal(false)}}>Done</Button>}
+            {!loading&& <Button onPress={updateconfirm}>Confirm</Button>}
+            {!loading&& <Button onPress={updatecancel}>Cancel</Button>}
+            {!loading&& <Button onPress={()=>{setIsmodal(false)}}>Done</Button>}
           </View>
         </ScrollView>
       </Modal>

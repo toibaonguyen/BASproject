@@ -50,7 +50,7 @@ const CartProductItem = ({item}) => {
         <View style={styles.root0}>
             
         <View style={styles.root}>
-            <Image style={styles.image} source={{uri:product.image}}/>
+            <Image style={styles.image} source={{uri:product.thumbnail}}/>
             <View style={styles.rightContainer}>
                 <Text style={styles.title} maxFontSizeMultiplier={4}>{product.productname}</Text>
             <View>

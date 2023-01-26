@@ -29,7 +29,8 @@ import {
   setsoldProductsHistory,
   setsolvingProducts,
   setlistofsolvingProducts,
-  setwallet
+  setwallet,
+  setusertype
 } from "../../redux/store/action"
 import FavoriteProductsScreen from '../FavoriteProductsScreen'
 import SuccessfullyOrderingScreen from '../SuccessfullyOrderingScreen'
@@ -148,7 +149,8 @@ const MainAppScreen = () => {
         dispatch(setboughtProductsHistory(documentSnapshot.data().boughtProductsHistory))
         dispatch(setfavoriteProducts(documentSnapshot.data().favoriteProducts))
         dispatch(setwallet(documentSnapshot.data().wallet))
-        
+        dispatch(setusertype(documentSnapshot.data().usertype))
+
       })
 
     return () => subscriber();

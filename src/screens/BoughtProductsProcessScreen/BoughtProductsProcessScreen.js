@@ -128,10 +128,10 @@ const ProductItem1=({item})=>{
 const ProductItem2=({item})=>{
   
   const [isVisible,setIsvisible]=useState(false)
-const [yourRating,setyourRating]=useState(3)
-const [yourComment,setyourComment]=useState("")
-const [senddingFeedback,setsenddingFeedback]=useState(false)
-const navigation=useNavigation()
+  const [yourRating,setyourRating]=useState(3)
+  const [yourComment,setyourComment]=useState("")
+  const [senddingFeedback,setsenddingFeedback]=useState(false)
+  const navigation=useNavigation()
   const solvingProducts=useSelector(state=>state.ReducerUserInfo.solvingProducts)
   const listofsolvingProducts=useSelector(state=>state.ReducerListofSolvingProducts.solvingProducts)
   const products=useSelector(state=>state.ReducerListofProducts.products);
@@ -156,7 +156,6 @@ console.log("here",item.solvingID)
       await firestore().collection("Users").doc(id).update({
         boughtProductsHistory:firestore.FieldValue.arrayUnion({solvingID:item.solvingID,already_giveFeedback:
           true,receiveddate:item.receiveddate
-
         })
       })
     }).then(async()=>{
@@ -182,6 +181,7 @@ console.log("here",item.solvingID)
     return(
       <View style={{margin:10,borderWidth:1,borderRadius:5}}>
         <Pressable onPress={onpressItem}>
+      
         <View style={{
         flexDirection:"row",
         borderWidth:1,

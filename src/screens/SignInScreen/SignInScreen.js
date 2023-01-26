@@ -41,26 +41,14 @@ const SignInScreen = () => {
       else{
         Alert.alert("Error!","The email address or password is incorrect. Please try again!",[{text:"OK"}])
       }
-    
-    
-    
     })
     //dispatch(setisloading(false))
-
   }
 
   const onForgetPasswordPressed=()=>{
     navigation.navigate('ResetPassword')
   }
-  const onSignInFacebook=()=>{
-    console.warn("OnSignInFacebook")
-
-
-  }
-  const onSignInGoogle=()=>{
-    console.warn("OnSignInGoogle")
-
-  }
+  
   const onDontHaveAccount=()=>{
     navigation.navigate('SignUp')
   }
@@ -75,13 +63,7 @@ const SignInScreen = () => {
       <CustomInput placeholder="Password" value={password} setvalue={setpassword} secureTextEntry={true}/>
       <CustomButton text="Sign in" onPress={onSignInPressed}/>
       <CustomButton text="Forgot password?" onPress={onForgetPasswordPressed} type="TERTIARY"/>
-      <CustomButton text="Sign in with Facebook" onPress={onSignInFacebook} bgColor="#E7EAF4" fgColor="#4765A9" />
-      <CustomButton text="Sign in with Google" onPress={onSignInGoogle} bgColor="#FAE9EA" fgColor="#DD4D44" />
       <CustomButton text="Don't have an account yet? Sign Up" onPress={onDontHaveAccount} type="TERTIARY" />
-   
-     
-      
-      
     </View>
     </ScrollView>
   )

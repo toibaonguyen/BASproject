@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  ScrollView,
   SafeAreaView,
   StyleSheet,
   Image,
@@ -10,6 +9,7 @@ import {
   TextInput,
   Pressable,
   Keyboard,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import {Button} from 'react-native';
@@ -26,13 +26,8 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import HomeProductItem from '../../components/HomeProductItem';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
-
-
-
-
-
-
-
+import producttopushwithadminright from '../../../Data/producttopushwithadminright';
+import Logo from '../../../assets/images/Logo.png';
 
 const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setCLicked}) => {
   return (
@@ -73,14 +68,14 @@ const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setCLicked}) => {
       </View>
       {/* cancel button, depending on whether the search bar is clicked or not */}
       {clicked && (
-        <View style={{marginLeft:5}}> 
+        <View style={{marginLeft: 5}}>
           <TouchableOpacity
             onPress={() => {
               Keyboard.dismiss();
               setCLicked(false);
             }}>
-              <Text>Cancel</Text>
-            </TouchableOpacity>
+            <Text>Cancel</Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>
@@ -95,43 +90,36 @@ const HomeScreen = () => {
   const products = useSelector(state => state.ReducerListofProducts.products);
   const dispatch = useDispatch();
 
-
-  const List = ({ searchPhrase, setCLicked, data }) => {
-    const renderItem = ({ item }) => {
+  const List = ({searchPhrase, setCLicked, data}) => {
+    const renderItem = ({item}) => {
       // when no input, show all
-      if (searchPhrase === "") {
+      if (searchPhrase === '') {
         return <ProductItem item={item} />;
       }
       // filter of the name
       if (item.productname.toUpperCase().includes(searchPhrase.toUpperCase())) {
-        return <ProductItem item={item}  />;
+        return <ProductItem item={item} />;
       }
-
-
-      
     };
-  
+
     return (
-        <View
-          onStartShouldSetResponder={() => {
-            setCLicked(false);
-          }}
-        >
-          <FlatList
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-          />
-        </View>
+      <SafeAreaView
+        onStartShouldSetResponder={() => {
+          setCLicked(false);
+        }}>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+        />
+      </SafeAreaView>
     );
   };
 
-  
   const searchbarpressed = () => {
     console.log('Search bar pressed');
   };
-
-  
 
   useEffect(() => {
     const subscriber = firestore()
@@ -139,11 +127,6 @@ const HomeScreen = () => {
       .onSnapshot(async querySnapshot => {
         const productslist = [];
         querySnapshot.forEach(documentSnapshot => {
-          console.log(
-            'ref: ',
-            `products/product/${documentSnapshot.id}/representativeImage/i0`,
-          );
-          const ref = `products/product/${documentSnapshot.id}/representativeImage/i0.jpg`;
           productslist.push({
             ...documentSnapshot.data(),
             id: documentSnapshot.id,
@@ -154,6 +137,7 @@ const HomeScreen = () => {
       });
     return () => subscriber();
   }, []);
+
   if (loading) {
     return (
       <View style={styles.loading}>
@@ -162,66 +146,65 @@ const HomeScreen = () => {
     );
   }
   return (
-    <View style={styles.root} >
+    <SafeAreaView style={styles.root}>
       {isfocus == false && (
         <View style={styles.header}>
-          <View
-            style={{
-              width: '50%',
-            }}>
-            <Text style={{fontWeight: 'bold', fontSize: 30}}>Home</Text>
-          </View>
+          <View style={{flexDirection: 'row'}}></View>
         </View>
       )}
 
-      <View
-        style={{
-          marginTop: 10,
-          width: '100%',
-          marginVertical: 30,
-          flexDirection: 'row',
-        }}>
-        <SearchBar
-          searchPhrase={textsearch}
-          setSearchPhrase={setTextsearch}
-          clicked={isfocus}
-          setCLicked={setisfocus}
-        />
-      </View>
+      <SearchBar
+        searchPhrase={textsearch}
+        setSearchPhrase={setTextsearch}
+        clicked={isfocus}
+        setCLicked={setisfocus}
+      />
       {
         //Game start from here
       }
-      {isfocus==false&&
-      (
-      <View style={styles.body}>
-        <ScrollView>
-          {
-            <HomeProductItem item={products[0]}/>
-          }
-          
+      {isfocus == false && (
+        <ScrollView style={styles.body}>
+          <Text style={{marginLeft: 15}}>New products:</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <HomeProductItem item={products[0]} />
+            <HomeProductItem item={products[1]} />
+            <HomeProductItem item={products[2]} />
+            <HomeProductItem item={products[3]} />
+            <HomeProductItem item={products[4]} />
+          </ScrollView>
+          <View style={{marginTop: 15}}>
+            <Text style={{marginLeft: 15}}>Other products:</Text>
+            <ProductItem item={products[5]} />
+            <ProductItem item={products[6]} />
+            <ProductItem item={products[7]} />
+            <ProductItem item={products[8]} />
+            <ProductItem item={products[9]} />
+          </View>
         </ScrollView>
-      </View>
-      )
-      }
-      {
-        isfocus&&(
-          <View>
-            <List
+      )}
+      {isfocus && (
+        <View style={styles.body}>
+          <List
             searchPhrase={textsearch}
             setCLicked={setisfocus}
             data={products}
-            />
-
-          </View>
-        )
-      }
-    </View>
+          />
+        </View>
+      )}
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  root: {paddingHorizontal: 20, backgroundColor: '#fff'},
-  loading: {justifyContent: 'center', alignItems: 'center', flex: 1},
+  root: {
+    backgroundColor: '#fff',
+    width: '100%',
+  },
+  loading: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
   header: {
     flexDirection: 'row',
     width: '100%',
@@ -230,7 +213,7 @@ const styles = StyleSheet.create({
   },
   body: {
     width: '100%',
-    marginTop: 10,
+    marginTop: 5,
   },
   searchBar__container: {
     margin: 15,
@@ -257,7 +240,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   input: {
-    fontSize: 20,
+    fontSize: 15,
     marginLeft: 10,
     width: '90%',
   },

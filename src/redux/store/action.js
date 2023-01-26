@@ -124,3 +124,10 @@ export const setbaseproductImage=(item)=>dispatch=>{
         payload: items
     })
 }
+export const setusertype=(item)=>dispatch=>{
+    console.log("user type: ",item)
+    dispatch({
+        type: 'SET_USERTYPE',
+        payload: item
+    })
+}
