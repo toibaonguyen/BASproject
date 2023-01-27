@@ -50,8 +50,9 @@ const ProductItem=({item})=>{
         flex:1
         }}>
           <View style={{flex:3}}>
+           
             <View style={{flex:5,padding:10}}>
-              <Text style={{fontSize:25,color:"blue"}}>{products[index1].productname} <Text style={{fontSize:15,color:"black"}}>x{listofsolvingProducts[index0].quantity}</Text></Text>
+              <Text >{listofsolvingProducts[index0].id}</Text>
             </View>
             <View style={{flex:1,paddingLeft:5,flexDirection:"row-reverse"}}>
               <Text>Status: {listofsolvingProducts[index0].status}</Text>
@@ -82,7 +83,6 @@ const ProductItem1=({item})=>{
     return object.id === item;
   });
   const index1=products.findIndex(object => {
-    
     return object.id === listofsolvingProducts[index0].productid;
   }
   );
@@ -104,13 +104,13 @@ const ProductItem1=({item})=>{
         }}>
           <View style={{flex:3}}>
             <View style={{flex:5,padding:10}}>
-              <Text style={{fontSize:25,color:"blue"}}>{products[index1].productname} <Text style={{fontSize:20,color:"black"}}>x{listofsolvingProducts[index0].quantity}</Text></Text>
+              <Text>{listofsolvingProducts[index0].id}</Text>
             </View>
             <View style={{flex:1,paddingLeft:5,flexDirection:"row-reverse"}}>
               <Text>Status: <Text style={{fontWeight:"bold",color:"red"}}>{listofsolvingProducts[index0].status}</Text></Text>
             </View>
             <View style={{flex:1,paddingRight:5,flexDirection:"row-reverse"}}>
-              <Text>order date: {listofsolvingProducts[index0].date}</Text>
+              <Text>Order date: {listofsolvingProducts[index0].date}</Text>
             </View>
           </View>
           <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
@@ -181,7 +181,6 @@ console.log("here",item.solvingID)
     return(
       <View style={{margin:10,borderWidth:1,borderRadius:5}}>
         <Pressable onPress={onpressItem}>
-      
         <View style={{
         flexDirection:"row",
         borderWidth:1,
@@ -193,7 +192,9 @@ console.log("here",item.solvingID)
           <View style={{flex:3}}>
             <View style={{flex:5,padding:10}}>
               <Text style={{fontSize:25,color:"blue"}}>{products[index1].productname} <Text style={{fontSize:20,color:"black"}}>x{listofsolvingProducts[index0].quantity}</Text></Text>
+              <Text>{listofsolvingProducts[index0].id}</Text>
             </View>
+              
             <View style={{flex:1,paddingRight:5,flexDirection:"row-reverse"}}>
               <Text>Received date: {item.receiveddate}</Text>
             </View>
@@ -204,7 +205,7 @@ console.log("here",item.solvingID)
         </View>
       </Pressable>
 
-{ item.already_giveFeedback==false&&
+{ item.already_giveFeedback==false &&
     <View style={{
       borderWidth:1,
     }}>

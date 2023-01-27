@@ -6,6 +6,9 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import firestore from "@react-native-firebase/firestore"
 import { setproducts } from '../../redux/store/action';
+
+
+
 const RenderI = ({text, onPress}) => {
   return (
     <Pressable onPress={onPress}>
@@ -24,6 +27,8 @@ const RenderI = ({text, onPress}) => {
     </Pressable>
   );
 };
+
+
 
 const ADmainapp = () => {
 
@@ -83,7 +88,7 @@ const ADmainapp = () => {
       <RenderI text={'Manage products'} onPress={()=>{navigation.navigate('manageproduct')}}/>
       <RenderI text={'Manage Users'} onPress={()=>{navigation.navigate('manageusers')}}/>
       <RenderI text={'Manage list of Deliveryman'} onPress={()=>{navigation.navigate('managedeliveryman')}}/>
-
+      <RenderI text={'Manage orders'} onPress={()=>{navigation.navigate('manageorders')}}/>
     </ScrollView>
   );
 };

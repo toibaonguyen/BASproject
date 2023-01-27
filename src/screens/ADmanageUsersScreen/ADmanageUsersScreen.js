@@ -10,14 +10,11 @@ import React from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {useState} from 'react';
 import {useEffect} from 'react';
-import { Avatar, ActivityIndicator,Searchbar} from 'react-native-paper';
+import {Avatar, ActivityIndicator, Searchbar} from 'react-native-paper';
 import CustomButton from '../../components/CustomButton';
 import {useSelector} from 'react-redux';
 import auth from '@react-native-firebase/auth';
-import { useNavigation } from '@react-navigation/native';
-
-
-
+import {useNavigation} from '@react-navigation/native';
 
 const ADmanageUsersScreen = () => {
   const [users, setUsers] = useState([]);
@@ -41,10 +38,10 @@ const ADmanageUsersScreen = () => {
   const UserItem = ({item}) => {
     const [onp, setOnp] = useState(false);
     const [loading, setLoading] = useState(false);
-    const navigation=useNavigation()
+    const navigation = useNavigation();
 
-    const onLongPressItem = ()=>{
-      navigation.navigate('usersproducts',{userid:item.id})
+    const onLongPressItem = () => {
+      navigation.navigate('usersproducts', {userid: item.id});
     };
     const onpressauthentic = async () => {
       setLoading(true);
@@ -86,12 +83,13 @@ const ADmanageUsersScreen = () => {
     };
 
     return (
-      <View
+      <SafeAreaView
         style={{
-          margin: 10,
+          padding: 10,
           borderWidth: 1,
           borderRadius: 5,
           backgroundColor: '#fff',
+          marginVertical: 10,
         }}>
         {loading ? (
           <View
@@ -105,34 +103,48 @@ const ADmanageUsersScreen = () => {
         ) : (
           <View>
             <Pressable
-              style={{height: 150, flexDirection: 'row'}}
               onLongPress={onLongPressItem}
               onPress={() => {
                 setOnp(!onp);
               }}>
-              <View
-                style={{
-                  width: 150,
-                  height: 150,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: '#000',
-                }}>
-                <Avatar.Image source={{uri: item.avatar}} />
-              </View>
-              <View style={{height: 150, padding: 10}}>
-                <Text style={{fontWeight: 'bold'}}>{item.email}</Text>
-                <Text>{item.username}</Text>
-                <Text>
-                  Type: {item.usertype == 'common' && <Text>common</Text>}
-                  {item.usertype == 'authentic' && (
-                    <Text style={{color: '#DFC800'}}>authentic</Text>
-                  )}
-                  {item.usertype == 'licensed' && (
-                    <Text style={{color: '#007ED5'}}>licensed</Text>
-                  )}
-                </Text>
-                <Text>Fullname: {item.fullname}</Text>
+              <View style={{height: 150, flexDirection: 'row'}}>
+                <View
+                  style={{
+                    width: 150,
+                    height: 150,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#000',
+                  }}>
+                  <Avatar.Image source={{uri: item.avatar}} />
+                </View>
+                <View
+                  style={{
+                    height: 150,
+                    paddingHorizontal: 10,
+                    width: 0,
+                    flexGrow: 1,
+                    flex: 1,
+                  }}>
+                  <Text style={{fontWeight: 'bold'}}>{item.email}</Text>
+                  <Text style={{textDecorationLine: 'underline'}}>
+                    UID:{' '}
+                    <Text style={{textDecorationLine: 'none'}}>{item.id}</Text>
+                  </Text>
+
+                  <Text>{item.username}</Text>
+                  <Text>
+                    Type: {item.usertype == 'common' && <Text>common</Text>}
+                    {item.usertype == 'authentic' && (
+                      <Text style={{color: '#DFC800'}}>authentic</Text>
+                    )}
+                    {item.usertype == 'licensed' && (
+                      <Text style={{color: '#007ED5'}}>licensed</Text>
+                    )}
+                  </Text>
+                  <Text>Fullname: {item.fullname}</Text>
+                  <Text>Fullname: {item.phonenumber}</Text>
+                </View>
               </View>
             </Pressable>
 
@@ -157,20 +169,20 @@ const ADmanageUsersScreen = () => {
             )}
           </View>
         )}
-      </View>
+      </SafeAreaView>
     );
   };
   return (
     <SafeAreaView style={{height: '100%', width: '100%'}}>
       <Searchbar
-      placeholder='Search with email...'
+        placeholder="Search with email..."
         style={{margin: 10}}
         value={searchtext}
         onChangeText={setSearchtext}
       />
       <FlatList
         showsVerticalScrollIndicator={false}
-        
+        contentContainerStyle={{padding: 10}}
         data={users}
         renderItem={({item}) => {
           if (searchtext == '') {

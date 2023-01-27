@@ -30,9 +30,7 @@ const ShoppingCartScreen = () => {
   const navigation=useNavigation()
   
 
-  const totalPrice=PList().reduce(
-    (summedprice,product)=>summedprice+product.price*product.quantity*10000,0,
-  )
+  
   const onCheckout=()=>{
     console.log("okâys")
     if(shoppingCart.length==0){
@@ -50,10 +48,7 @@ const ShoppingCartScreen = () => {
         
         <FlatList 
         ListFooterComponent={()=>(<View style={{marginLeft:5,marginRight:5}}>
-          <Text style={{fontSize:18}}>
-            Subtotal ({shoppingCart.length} items):{" "}
-            <Text style={{color:"#E3EE74",fontWeight:"bold"}}>{totalPrice} VNĐ</Text>
-          </Text>
+          
           <CustomButton 
           text="Proceed to checkout" 
           fgColor="black" 

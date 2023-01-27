@@ -22,12 +22,17 @@ const ADviewusersproducts = ({route,navigation}) => {
 
   return (
     <SafeAreaView style={{width:"100%",height:"100%"}}>
-      <FlatList
-      data={potu()}
-      renderItem={({item})=>{
-        return <ProductItemforAD item={item}/>
-      }}
-      />
+      {
+        potu().length?(<FlatList
+          data={potu()}
+          renderItem={({item})=>{
+            return (<ProductItemforAD item={item}/>)
+          }}
+          />):(
+            <Text style={{alignSelf:"center",marginTop:10}}>This user doesn't want to sell anything</Text>
+          )
+      }
+      
 
     </SafeAreaView>
   )

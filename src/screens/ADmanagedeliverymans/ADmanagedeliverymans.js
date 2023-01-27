@@ -10,9 +10,43 @@ import { useSelector } from 'react-redux';
 const DMItem = ({item}) => {
   const navigation = useNavigation();
 
-  const onPressItem = () => {};
+  const [isloading,setIsloading]=useState(false)
+  const onPressItem = async() => {
+
+    Alert.alert("Are you sure?","Do you want to remove this user from system?",
+    [
+      {
+        text:"No"
+      },
+      {
+        text:"Yes",
+        style:"destructive",
+        onPress: async()=>{
+          setIsloading(true)
+          await firestore().collection("Deliverymans").doc(item.id).delete().catch(()=>{
+            setIsloading(false)
+          })
+        }
+      }
+    ])
+  };
 
   const baseavatar=useSelector(state=>state.ReducerUserInfo.baseavatar)
+
+
+  if(isloading){
+    return(
+      <View style={{
+        height:150,
+        margin: 10,
+        borderWidth: 1,
+        borderRadius: 5,
+        backgroundColor: '#fff',
+        alignItems:"center",justifyContent:"center"
+      }}><ActivityIndicator/></View>
+    )
+  }
+
   return (
     <View
       style={{
@@ -38,6 +72,10 @@ const DMItem = ({item}) => {
         <View style={{height: 150, padding: 10}}>
           <Text style={{fontWeight: 'bold'}}>{item.id}</Text>
           <Text>Fullname: {item.fullname}</Text>
+          <Text>City: {item.city}</Text>
+          <Text>Address: {item.address}</Text>
+          <Text>Phone number: {item.phone}</Text>
+          <Text>Birthday: {item.birthday}</Text>
         </View>
       </Pressable>
     </View>

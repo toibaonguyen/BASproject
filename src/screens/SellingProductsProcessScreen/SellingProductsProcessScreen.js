@@ -91,6 +91,7 @@ const SellingProductsProcessScreen = () => {
           {
             listofsolvingProducts[index0].option&&<Text>Option: {listofsolvingProducts[index0].option}</Text>
           }
+          <Text>{listofsolvingProducts[index0].id}</Text>
           </View>
           <View style={{flex:1,flexDirection:"row-reverse"}}>
             <Text>Status: {listofsolvingProducts[index0].status}</Text>
@@ -125,10 +126,11 @@ const SellingProductsProcessScreen = () => {
       >
         <View style={{flex:4}}>
           <View style={{flex:4,padding:15}}>
-          <Text style={{fontSize:25,color:"blue"}}>{products[index1].productname} <Text style={{fontSize:15,color:"black"}}>x{listofsolvingProducts[index0].quantity}</Text></Text>
+          <Text style={{fontSize:25,color:"blue"}}>{products[index1].productname}<Text style={{fontSize:15,color:"black"}}>x{listofsolvingProducts[index0].quantity}</Text></Text>
           {
             listofsolvingProducts[index0].option&&<Text>Option: {listofsolvingProducts[index0].option}</Text>
           }
+          <Text>{listofsolvingProducts[index0].id}</Text>
           </View>
           <View style={{flex:1,flexDirection:"row-reverse"}}>
             <Text>Status: {listofsolvingProducts[index0].status}</Text>

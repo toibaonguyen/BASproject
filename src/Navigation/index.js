@@ -27,6 +27,7 @@ import ADmanageUsersScreen from '../screens/ADmanageUsersScreen';
 import ADviewusersproducts from '../screens/ADviewusersproducts';
 import ADmanagedeliverymans from '../screens/ADmanagedeliverymans';
 import ADcreatenewDM from '../screens/ADcreatenewDM';
+import ADmanageorders from '../screens/ADmanageorders';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,7 @@ const AdminMainApp=()=>{
       <Stack.Screen name='usersproducts' component={ADviewusersproducts}/>
       <Stack.Screen name='managedeliveryman' component={ADmanagedeliverymans}/>
       <Stack.Screen name='createDM' component={ADcreatenewDM}/>
+      <Stack.Screen name='manageorders' component={ADmanageorders} />
     </Stack.Navigator>
   )
 }

@@ -38,6 +38,7 @@ const SignUpScreen = () => {
     return vnf_regex.test(p);
   };
 
+  //Chỗ này là đk tk
   const onRegisterPressed = async () => {
     //there are some code with this before navigating
 

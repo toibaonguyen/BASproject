@@ -71,7 +71,8 @@ const AddressScreen = ({route,navigation}) => {
           sellerID:product.sellerID,
           purchaserID:userid,
           status:"ordering",
-          date: String(new Date)+" "
+          date: String(new Date)+" ",
+          city:chosenCity
         })
         await firestore().collection("Users").doc(product.sellerID).update({
           solvingProducts:firestore.FieldValue.arrayUnion(docadded.id)

@@ -26,7 +26,6 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import HomeProductItem from '../../components/HomeProductItem';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
-import producttopushwithadminright from '../../../Data/producttopushwithadminright';
 import Logo from '../../../assets/images/Logo.png';
 
 const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setCLicked}) => {
@@ -124,7 +123,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const subscriber = firestore()
       .collection('Products')
-      .onSnapshot(async querySnapshot => {
+      .onSnapshot(querySnapshot => {
         const productslist = [];
         querySnapshot.forEach(documentSnapshot => {
           productslist.push({
@@ -199,6 +198,7 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: '#fff',
     width: '100%',
+    height:"100%"
   },
   loading: {
     justifyContent: 'center',
