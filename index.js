@@ -12,7 +12,7 @@ const RootApp = () => {
   async function bootstrap() {
     await firestore()
       .settings({
-        persistence: false, // disable offline persistence
+        persistence: false,
       })
       .then(() => {
         console.log('1000');

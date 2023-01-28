@@ -110,7 +110,7 @@ const OrderInfo = ({item}) => {
       })
     }
     else{
-      Alert.alert("Error","Please fill the ID of deliveryman")
+      Alert.alert("Error","Please fill the ID of deliveryman correctly")
     }
   };
   const onConfirm=async()=>{
@@ -159,9 +159,15 @@ const OrderInfo = ({item}) => {
           }}>
           Use these buttons in case of emergency!
         </Text>
-        <CustomButton text={'Confirm this order'} bgColor={'red'} onPress={onConfirm}/>
-        <CustomButton text={'Cancel this order'} bgColor={'red'} onPress={onCancel}/>
-      </View>
+        {
+          st!="confirmed"&&<CustomButton text={'Confirm this order'} bgColor={'red'} onPress={onConfirm}/>
+
+        }
+        {
+          st!="cancelled"&&<CustomButton text={'Cancel this order'} bgColor={'red'} onPress={onCancel}/>
+      
+        }
+       </View>
     </View>
   );
 };
@@ -216,7 +222,7 @@ const ADmanageorders = () => {
               />
             );
           }
-          if (item.id.toUpperCase().includes(searchtext.toUpperCase())) {
+          if (item.id.includes(searchtext)) {
             return (
               <OrderItem
                 item={item}

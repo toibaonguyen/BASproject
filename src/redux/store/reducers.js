@@ -30,6 +30,9 @@ const InitialListofProducts = {
 const InitialListofSolvingProducts = {
   solvingProducts: [],
 };
+const InitialDMid = {
+  DMid: '',
+};
 
 export function ReducerUserInfo(state = InitialUserInfoState, action) {
   switch (action.type) {
@@ -95,13 +98,20 @@ export function ReducerListofProducts(state = InitialListofProducts, action) {
   }
 }
 
-export function ReducerListofSolvingProducts(
-  state = InitialListofSolvingProducts,
-  action,
-) {
+export function ReducerListofSolvingProducts( state = InitialListofSolvingProducts,action) {
   switch (action.type) {
     case 'SET_LISTSOLVINGPRODUCTS':
       return {solvingProducts: action.payload};
+    default:
+      return state;
+  }
+}
+
+
+export function ReducerDM( state = InitialDMid,action) {
+  switch (action.type) {
+    case 'SET_DMID':
+      return {DMid: action.payload};
     default:
       return state;
   }

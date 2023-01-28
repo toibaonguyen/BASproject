@@ -131,3 +131,10 @@ export const setusertype=(item)=>dispatch=>{
         payload: item
     })
 }
+
+export const setDMid=(item)=>dispatch=>{
+    dispatch({
+        type: 'SET_DMID',
+        payload: item
+    })
+}

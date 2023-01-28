@@ -13,7 +13,7 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
-import {setuserid, setisloading} from '../../redux/store/action';
+import {setuserid, setisloading, setDMid} from '../../redux/store/action';
 import auth from '@react-native-firebase/auth';
 import firestore from "@react-native-firebase/firestore"
 import {Button,ActivityIndicator} from 'react-native-paper';
@@ -22,7 +22,7 @@ import {Button,ActivityIndicator} from 'react-native-paper';
 
 
 
-const ADSignInScreen = () => {
+const DMSignInScreen = () => {
 
   const navigation = useNavigation();
   const [username, setusername] = useState('');
@@ -43,8 +43,9 @@ const ADSignInScreen = () => {
       return
     }
     
-    await firestore().collection("Admin").doc(username).get().then(query=>{
+    await firestore().collection("Deliverymans").doc(username).get().then(query=>{
       if(query.data().password){
+        dispatch(setDMid(query.id))
         
         navigation.navigate("MainApp")
       }
@@ -57,16 +58,16 @@ const ADSignInScreen = () => {
   };
 
   return (
-    <ScrollView style={{flex: 1,backgroundColor:"#1D0C52"}} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{flex: 1,backgroundColor:"#00D091"}} showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Image
           style={(styles.logo, {height: height * 0.3})}
           source={Logo}
           resizeMode="contain"
         />
-        <Text style={{color:"#fff",fontWeight:"bold",marginBottom:10}}>ADMIN</Text>
+        <Text style={{color:"#fff",fontWeight:"bold",marginBottom:10}}>DELIVERYMAN</Text>
         <CustomInput
-          placeholder="Username"
+          placeholder="CCCD"
           value={username}
           setvalue={setusername}
         />
@@ -89,4 +90,4 @@ const styles = StyleSheet.create({
   root: {padding: 20, alignItems: 'center', flex: 1},
 });
 
-export default ADSignInScreen;
+export default DMSignInScreen;

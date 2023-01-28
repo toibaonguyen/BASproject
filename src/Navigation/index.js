@@ -28,6 +28,9 @@ import ADviewusersproducts from '../screens/ADviewusersproducts';
 import ADmanagedeliverymans from '../screens/ADmanagedeliverymans';
 import ADcreatenewDM from '../screens/ADcreatenewDM';
 import ADmanageorders from '../screens/ADmanageorders';
+import DMSignInScreen from '../screens/DMSignInScreen';
+import DMmainapp from '../screens/DMmainapp';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +58,14 @@ const AdminMainApp=()=>{
       <Stack.Screen name='managedeliveryman' component={ADmanagedeliverymans}/>
       <Stack.Screen name='createDM' component={ADcreatenewDM}/>
       <Stack.Screen name='manageorders' component={ADmanageorders} />
+    </Stack.Navigator>
+  )
+}
+const DMMainAppS=()=>{
+  return(
+    <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="SignIn">
+      <Stack.Screen name="SignIn" component={DMSignInScreen} />
+      <Stack.Screen name='MainApp' component={DMmainapp} />
     </Stack.Navigator>
   )
 }
@@ -144,10 +155,7 @@ const Navigation = () => {
       <AdminMainApp/>
     );
   } else if (chosenRole == 3) {
-    return (
-      <View>
-        <Text>delivery man</Text>
-      </View>
+    return (<DMMainAppS/>
     );
   }
 };
