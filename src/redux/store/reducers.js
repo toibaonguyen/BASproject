@@ -34,6 +34,10 @@ const InitialDMid = {
   DMid: '',
 };
 
+const InitialRole = {
+  role: null,
+};
+
 export function ReducerUserInfo(state = InitialUserInfoState, action) {
   switch (action.type) {
     case 'SET_USERID':
@@ -112,6 +116,15 @@ export function ReducerDM( state = InitialDMid,action) {
   switch (action.type) {
     case 'SET_DMID':
       return {DMid: action.payload};
+    default:
+      return state;
+  }
+}
+
+export function ReducerUserRole( state = InitialRole,action) {
+  switch (action.type) {
+    case 'SET_ROLE':
+      return {role: action.payload};
     default:
       return state;
   }

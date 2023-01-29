@@ -152,7 +152,6 @@ const PostProductScreen = () => {
       images:[],
       status:"pending",
       uploaddate:new Date().toLocaleString(),
-      tendtodecreaseQuantity:0,
       category:chosenCategory,
       feedbacks:[]
     })

@@ -13,17 +13,7 @@ const ShoppingCartScreen = () => {
 
   const shoppingCart=useSelector(state=>state.ReducerUserInfo.shoppingCart);
   const products=useSelector(state=>state.ReducerListofProducts.products);
-  const PList=()=>{
-    const list=[]
-    shoppingCart.forEach(element => {
-      products.forEach(i => {
-        if(i.id===element.productid){
-          list.push({price:i.price, quantity:element.quantity})
-        }
-      })
-    })
-    return list
-  }
+  
 
 
 
@@ -38,7 +28,6 @@ const ShoppingCartScreen = () => {
       return
     }
     const CopiedList=JSON.parse(JSON.stringify(shoppingCart))
-
     navigation.navigate("Address",{list:CopiedList})
   }
 

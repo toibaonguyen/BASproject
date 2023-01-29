@@ -49,19 +49,9 @@ const SellingProductsProcessScreen = () => {
         status: "cancelled"
       }
     ).then(async()=>{
-      const index0=listofsolvingProducts.findIndex(object => {
-        return object.id === statewiththismodal.id;
-      });
       
-      const index1=products.findIndex(object => {
-        return object.id === listofsolvingProducts[index0].productid;
-      })
-      await firestore().collection("Products").doc(products[index1].id).update({
-        tendtodecreaseQuantity: firestore.FieldValue.increment(-(Number(listofsolvingProducts[index0].quantity)))
-      }).then(()=>{
         setLoading(false)
         setIsmodal(false)
-      })
     })
   }
   
@@ -133,7 +123,7 @@ const SellingProductsProcessScreen = () => {
           <Text>{listofsolvingProducts[index0].id}</Text>
           </View>
           <View style={{flex:1,flexDirection:"row-reverse"}}>
-            <Text>Status: {listofsolvingProducts[index0].status}</Text>
+            <Text>Status: <Text style={{color:"green"}}>{listofsolvingProducts[index0].status}</Text></Text>
           </View>
         </View>
         <Pressable style={{flex:1,justifyContent:"center",alignItems:"center",borderLeftWidth:1}} onPress={onPress}>

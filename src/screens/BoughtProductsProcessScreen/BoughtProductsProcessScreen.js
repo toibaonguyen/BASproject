@@ -139,7 +139,6 @@ const ProductItem2=({item})=>{
   const boughtProductsHistory=useSelector(state=>state.ReducerUserInfo.boughtProductsHistory)
   const username = useSelector(state => state.ReducerUserInfo.name);
 
-console.log("here",item.solvingID)
   const index0=listofsolvingProducts.findIndex(object => {
     return object.id === item.solvingID;
   });
@@ -173,9 +172,10 @@ console.log("here",item.solvingID)
     setIsvisible(true)
   }
   if(senddingFeedback){
-    <View style={{margin:10,borderWidth:1,borderRadius:5,alignItems:"center",justifyContent:"center"}}>
-      <ActivityIndicator size={"large"}/>
-    </View>
+    return(<View style={{margin:10,borderWidth:1,borderRadius:5,alignItems:"center",justifyContent:"center"}}>
+    <ActivityIndicator size={"large"}/>
+  </View>)
+    
   }
   if(listofsolvingProducts[index0].purchaserID==id&&listofsolvingProducts[index0].status=="done"){
     return(

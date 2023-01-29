@@ -14,7 +14,7 @@ import ConfirmEmail from '../screens/ConfirmEmail';
 import NewPasswordScreen from '../screens/NewPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 //import HomeScreen from '../screens/HomeScreen'
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import MainAppScreen from '../screens/MainAppScreen';
 import ProductsmanageScreen from '../screens/ProductsmanageScreen';
@@ -30,6 +30,8 @@ import ADcreatenewDM from '../screens/ADcreatenewDM';
 import ADmanageorders from '../screens/ADmanageorders';
 import DMSignInScreen from '../screens/DMSignInScreen';
 import DMmainapp from '../screens/DMmainapp';
+import { setrole } from '../redux/store/action';
+import ADmanageIncome from '../screens/ADmanageIncome';
 
 
 const Stack = createNativeStackNavigator();
@@ -58,6 +60,7 @@ const AdminMainApp=()=>{
       <Stack.Screen name='managedeliveryman' component={ADmanagedeliverymans}/>
       <Stack.Screen name='createDM' component={ADcreatenewDM}/>
       <Stack.Screen name='manageorders' component={ADmanageorders} />
+      <Stack.Screen name='manageincome' component={ADmanageIncome}/>
     </Stack.Navigator>
   )
 }
@@ -70,7 +73,9 @@ const DMMainAppS=()=>{
   )
 }
 
-const ChosenRoleScreen = ({setChosenRole}) => {
+const ChosenRoleScreen = () => {
+
+  const dispatch=useDispatch()
   const Item = ({role, onPress}) => {
     return (
       <TouchableOpacity onPress={onPress}>
@@ -102,19 +107,19 @@ const ChosenRoleScreen = ({setChosenRole}) => {
       <Item
         role={'a customer'}
         onPress={() => {
-          setChosenRole(1);
+          dispatch(setrole(1));
         }}
       />
       <Item
         role={'an admin'}
         onPress={() => {
-          setChosenRole(2);
+          dispatch(setrole(2));
         }}
       />
       <Item
         role={'a delivery man'}
         onPress={() => {
-          setChosenRole(3);
+          dispatch(setrole(3));
         }}
       />
     </ImageBackground>
@@ -124,7 +129,7 @@ const ChosenRoleScreen = ({setChosenRole}) => {
 const Navigation = () => {
   const id = useSelector(state => state.ReducerUserInfo.id);
   const isloading = useSelector(state => state.ReducerLogicFrontEnd.isLoading);
-  const [chosenRole, setChosenRole] = useState(null);
+  const chosenRole=useSelector(state=>state.ReducerUserRole.role)
 
   /*
   Nếu chosenRole = 1, thì role là khách hàng
@@ -141,7 +146,7 @@ const Navigation = () => {
   }
 
   if (!chosenRole) {
-    return <ChosenRoleScreen setChosenRole={setChosenRole} />;
+    return <ChosenRoleScreen/>;
   } else if (chosenRole == 1) {
     if(!id){
       return(<AuthStack/>)
@@ -155,8 +160,7 @@ const Navigation = () => {
       <AdminMainApp/>
     );
   } else if (chosenRole == 3) {
-    return (<DMMainAppS/>
-    );
+    return (<DMMainAppS/>);
   }
 };
 

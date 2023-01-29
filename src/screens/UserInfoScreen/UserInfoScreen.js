@@ -372,7 +372,7 @@ const UserInfoScreen = () => {
             onPress={onFavoriteProducts}
           />
           <CustomBtnWithIcon
-            text="Payment"
+            text="Wallet"
             iconname="creditcard"
             bgColor="white"
             fgColor="black"

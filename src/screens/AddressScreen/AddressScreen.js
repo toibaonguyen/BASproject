@@ -81,9 +81,6 @@ const AddressScreen = ({route,navigation}) => {
           solvingProducts:firestore.FieldValue.arrayUnion(docadded.id),
           shoppingCart:firestore.FieldValue.arrayRemove(list[i])
         })
-        await firestore().collection("Products").doc(product.id).update({
-          tendtodecreaseQuantity: firestore.FieldValue.increment(list[i].quantity)
-        })
       }
     }
     setisloading(false)

@@ -1,6 +1,6 @@
 import {configureStore,applyMiddleware,combineReducers} from '@reduxjs/toolkit'
 import thunk from "redux-thunk"
-import {ReducerUserInfo,ReducerLogicFrontEnd,ReducerListofProducts,ReducerListofSolvingProducts,ReducerDM} from './reducers'
+import {ReducerUserInfo,ReducerLogicFrontEnd,ReducerListofProducts,ReducerListofSolvingProducts,ReducerDM,ReducerUserRole} from './reducers'
 
 
 const RootReducer = combineReducers({
@@ -8,7 +8,8 @@ const RootReducer = combineReducers({
     ReducerLogicFrontEnd,
     ReducerListofProducts,
     ReducerListofSolvingProducts,
-    ReducerDM
+    ReducerDM,
+    ReducerUserRole
 })
 
 export default Store=configureStore({

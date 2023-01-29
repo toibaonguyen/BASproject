@@ -138,3 +138,10 @@ export const setDMid=(item)=>dispatch=>{
         payload: item
     })
 }
+
+export const setrole=(item)=>dispatch=>{
+    dispatch({
+        type: 'SET_ROLE',
+        payload: item
+    })
+}

@@ -77,7 +77,8 @@ const ProductScreen = ({route, navigation}) => {
   const products = useSelector(state => state.ReducerListofProducts.products);
   const baseavatar = useSelector(state => state.ReducerUserInfo.baseavatar);
   const product =
-    products[products.findIndex(object => {
+    products[
+      products.findIndex(object => {
         return object.id === id;
       })
     ];
@@ -89,7 +90,7 @@ const ProductScreen = ({route, navigation}) => {
     product.options ? product.options[0] : '',
   );
   const [quantity, setQuantity] = useState(
-    Number(product.maxQuantity) - Number(product.tendtodecreaseQuantity) <= 0
+    Number(product.maxQuantity) <= 0
       ? 0
       : 1,
   );
@@ -118,22 +119,6 @@ const ProductScreen = ({route, navigation}) => {
       avatar: selleravatar,
       username: sellername,
     });
-  };
-
-  const postfeedback = async () => {
-    await firestore()
-      .collection('Products')
-      .doc(id)
-      .update({
-        feedbacks: firestore.FieldValue.arrayUnion({
-          name: username,
-          rating: yourRating,
-          comment: yourComment,
-        }),
-      })
-      .then(() => {
-        Alert.alert('Thanks for your feedback');
-      });
   };
 
   const getuser = async () => {
@@ -216,12 +201,18 @@ const ProductScreen = ({route, navigation}) => {
           productid: id,
           quantity: quantity,
           option: selectedOption,
-          ownID: String(new Date()) + '_' + id + '_' + userid,
+          ownID: String(new Date()) + '_' + id + '_' + userid
         }),
       });
   };
   const onBuyNowPressed = () => {
     console.log('Buy now');
+    navigation.navigate("Address",{list:[{
+      productid: id,
+      quantity: quantity,
+      option: selectedOption,
+      ownID: String(new Date()) + '_' + id + '_' + userid
+    }]})
   };
 
   const onFavorite = async () => {
@@ -353,18 +344,15 @@ const ProductScreen = ({route, navigation}) => {
             </View>
           )}
           {product.sellerID != userid &&
-            Number(product.maxQuantity) -
-              Number(product.tendtodecreaseQuantity) <=
+            Number(product.maxQuantity) <=
               10 && (
               <Text style={{marginBottom: 5}}>
                 In stock currently:{' '}
                 <Text style={{color: 'red'}}>
-                  {Number(product.maxQuantity) -
-                    Number(product.tendtodecreaseQuantity) <
+                  {Number(product.maxQuantity)<
                   0
                     ? 0
-                    : Number(product.maxQuantity) -
-                      Number(product.tendtodecreaseQuantity)}
+                    : Number(product.maxQuantity)}
                 </Text>
               </Text>
             )}
@@ -373,8 +361,7 @@ const ProductScreen = ({route, navigation}) => {
               quantity={quantity}
               setQuantity={setQuantity}
               maxQuantity={
-                Number(product.maxQuantity) -
-                Number(product.tendtodecreaseQuantity)
+                Number(product.maxQuantity)
               }
             />
           )}

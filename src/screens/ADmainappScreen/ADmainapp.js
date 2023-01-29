@@ -89,6 +89,7 @@ const ADmainapp = () => {
       <RenderI text={'Manage Users'} onPress={()=>{navigation.navigate('manageusers')}}/>
       <RenderI text={'Manage list of Deliveryman'} onPress={()=>{navigation.navigate('managedeliveryman')}}/>
       <RenderI text={'Manage orders'} onPress={()=>{navigation.navigate('manageorders')}}/>
+      <RenderI text={'Income'} onPress={()=>{navigation.navigate('manageincome')}}/>
     </ScrollView>
   );
 };
