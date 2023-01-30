@@ -12,6 +12,7 @@ import firestore from "@react-native-firebase/firestore"
 import storage from "@react-native-firebase/storage"
 import { Picker } from '@react-native-picker/picker'
 import categories from '../../../Data/categories'
+import {TextInput as TIP}  from "react-native-paper"
 
 
 
@@ -31,6 +32,7 @@ const PostProductScreen = () => {
   const [imageList,setImageList]=useState([]);
   const [isVisible,setIsvisible]=useState(false)
   const [chosenCategory,setChosenCategory]=useState(categories[0].name)
+  const [options,setoptions]=useState([])
   const navigation=useNavigation()
 
   const openCamera=async()=>{
@@ -153,7 +155,8 @@ const PostProductScreen = () => {
       status:"pending",
       uploaddate:new Date().toLocaleString(),
       category:chosenCategory,
-      feedbacks:[]
+      feedbacks:[],
+      options:options
     })
 
     const docadded = await docRef
@@ -250,8 +253,27 @@ const PostProductScreen = () => {
               <View style={{marginTop:15,paddingHorizontal:10}}>
                 <CustomInput placeholder={"Name"} value={name} setvalue={setName}/>
                 <CustomInput placeholder={"Price (VNĐ)"} keyboardType={"number-pad"} value={price} setvalue={setPrice}/>
-                <CustomInput placeholder={"Max quantity"} keyboardType={"number-pad"} value={maxquantity} setvalue={setmaxquantity}/>
+                <CustomInput placeholder={"Stock"} keyboardType={"number-pad"} value={maxquantity} setvalue={setmaxquantity}/>
+
               </View>
+              <Text style={{marginLeft:15,marginTop:10}}>Options of product (optional):</Text>
+              <View
+               style={{
+               marginTop:15,
+               marginHorizontal:10,
+               marginBottom:10,
+              }}>
+                <TIP 
+                placeholder='Each option should be placed in 1 line'
+                multiline style={{padding:10}} onChangeText={(text)=>{
+                  const list=[]
+                  text.split('\n').map(word=>{
+                    list.push(word)
+                  })
+                  setoptions(list)
+                }}/>
+              </View>
+
               <Text style={{marginLeft:15,marginTop:10}}>Description:</Text>
               <View
                style={{
