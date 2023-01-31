@@ -101,6 +101,10 @@ const Needtodelivery = () => {
         .doc(item.id)
         .update({
           status: 'done',
+          receiveddate:String(new Date)+" ",
+
+
+
         })
         .then(async () => {
           await firestore()

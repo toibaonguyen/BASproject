@@ -175,7 +175,7 @@ const ADmanageUsersScreen = () => {
   return (
     <SafeAreaView style={{height: '100%', width: '100%'}}>
       <Searchbar
-        placeholder="Search with email..."
+        placeholder="Search with email or id"
         style={{margin: 10}}
         value={searchtext}
         onChangeText={setSearchtext}
@@ -189,6 +189,9 @@ const ADmanageUsersScreen = () => {
             return <UserItem item={item} />;
           }
           if (item.email.toUpperCase().includes(searchtext.toUpperCase())) {
+            return <UserItem item={item} />;
+          }
+          if (item.id.toUpperCase().includes(searchtext.toUpperCase())) {
             return <UserItem item={item} />;
           }
         }}
